@@ -1,9 +1,8 @@
 var cx = require('react/lib/cx');
 var React = require('react');
-var Pikaday = require('../ui/pikaday');
+var Pikaday = require('../pikaday');
 
 module.exports = function (locals){
-  debugger
   var formGroupClasses = {
     'form-group': true,
     'has-feedback': true, // required for the icon

@@ -1,6 +1,4 @@
 import React from 'react';
-import translate from '../lib/translate';
-
 
 var Introduction = React.createClass({
 

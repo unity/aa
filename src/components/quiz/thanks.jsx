@@ -1,5 +1,4 @@
 var React = require('react');
-var translate = require('../lib/translate');
 
 var Thanks = React.createClass({
   render: function() {

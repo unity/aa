@@ -2,7 +2,6 @@ import React from 'react';
 
 import Introduction from './introduction';
 import Play from './play';
-import Quiz from './quiz';
 import Result from './result';
 import Thanks from './thanks';
 

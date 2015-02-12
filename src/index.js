@@ -1,6 +1,22 @@
 import Hull from './lib/hull-init';
-import Ship from './components/ship';
 import Translations from '../locales/en.json';
+import Engine    from './lib/engine';
+import styles    from './styles/main.scss';
+
+import React     from 'react';
+import Router    from 'react-router';
+import Routes    from './lib/routes';
+
+var App = {
+  start: function(element, deployment){
+    var engine = new Engine(deployment);
+
+    // Router.run(Routes, Router.HistoryLocation, function (Handler) {
+    Router.run(Routes, function (Handler) {
+      React.render(<Handler engine={engine} sandbox={true} styles={styles} />, element);
+    });
+  }
+}
 
 var appInit = function(hull, me, platform, org){
   // Clone the Ship so we're safely using it
@@ -30,7 +46,7 @@ var appInit = function(hull, me, platform, org){
   };
 
   // For full apps, do this to embed the ship in a raw way.......
-  Ship.start(document.getElementById('ship'),deployment);
+  App.start(document.getElementById('ship'),deployment);
   // Only one ship testing at a time, but Hull.embed expects an array;
   // Hull.embed([deployment]);
   

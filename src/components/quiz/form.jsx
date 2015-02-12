@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'underscore';
 import t from 'tcomb-form';
-import TextBox from './fields/text-box';
+import TextBox from '../ui/fields/text-box';
 
 var Form = t.form.Form;
 

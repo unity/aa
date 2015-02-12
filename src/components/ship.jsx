@@ -1,12 +1,14 @@
 import _         from 'underscore';
 import React     from 'react';
 
-import Engine    from '../lib/engine';
-import styles    from '../styles/main.scss';
-import pikadaystyle from 'pikaday/css/pikaday.css';
+import Router from 'react-router'
+var {RouteHandler, Route} = Router
 
-import Frame     from './frame';
-import Quiz    from './quiz';
+import Frame     from './ui/frame';
+import Quiz      from './quiz/index';
+import MainNav   from './ui/nav';
+import Header    from './home/header';
+
 
 var Ship = React.createClass({
 
@@ -25,11 +27,9 @@ var Ship = React.createClass({
   componentDidMount: function() {
     // This is more robust than embedding the styles in the Iframe's Head using the head="" property
     this.props.styles.use(this.getStyleContainer());
-    pikadaystyle.use(this.getStyleContainer());
   },
   componentWillUnmount: function() {
-    this.props.styles.unuse();
-    pikadaystyle.unuse();
+    this.props.styles.unuse();    pikadaystyle.unuse();
     this.props.engine.removeChangeListener(this._onChange);
   },
 
@@ -48,19 +48,11 @@ var Ship = React.createClass({
   },
 
   render: function() {
-    // if (this.props.sandbox) {
-    //   return <Frame ref='frame'>{this.renderContent()}</Frame>;
-    // }
-
-    return this.renderContent();
-  },
-
-  statics:{
-    // Expose a static entry point to boot the ship
-    start : function(element, deployment){
-      var engine = new Engine(deployment);
-      React.render(<Ship engine={engine} sandbox={true} styles={styles} />, element);
-    }
+    return <div>
+      <MainNav/>
+      <Header/>
+      <RouteHandler/>
+    </div>
   }
 });
 
