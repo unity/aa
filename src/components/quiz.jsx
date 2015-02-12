@@ -37,7 +37,7 @@ var Quiz = React.createClass({
     }
   },
   renderStep: function(){
-    var Step=Steps[this.props.currentStep];
+    var Step=Steps['result_step'];
     return <Step {...this.props}/>;
   },
   render: function() {

@@ -151,7 +151,6 @@ assign(Engine.prototype, Emitter.prototype, {
   },
 
   resetTranslations: function() {
-    debugger
     this._translations = {};
     var translations = this._ship.translations.en;
     for (var k in translations) {
@@ -259,7 +258,6 @@ assign(Engine.prototype, Emitter.prototype, {
     this._form = this._ship.resources['profile-form'];
     this._badge = this._user && this._ship.resources.quiz.badge;
     this._settings = ship.settings;
-    this._translations = ship.translations;
     this._questions = this._getQuestions();
     this._countdown = (this._settings.quiz_countdown > 0) && this._settings.quiz_countdown;
     this._currentQuestionIndex = 0;
@@ -279,7 +277,6 @@ assign(Engine.prototype, Emitter.prototype, {
   },
   reset: function() {
     this.emitChange({ isLoading: 'reset' });
-
     Hull.api(this._ship.id).then(function(ship) {
       this._setInitialState(Hull.currentUser(), ship);
       this.emitChange();

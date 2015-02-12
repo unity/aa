@@ -7,7 +7,7 @@
   "play_with_service_button": "Play with {service}",
   "loging_in_message": "Waiting for login to complete...",
   "result_title": "Bravo",
-  "result_subtitle": "Score {score} after {attempts, plural, one{one attempt} other{# attemps}}.",
+  "result_subtitle": "You Scored {score} after {attempts, plural, one{one attempt} other{# attemps}} in {seconds, plural, one{one second} other{# seconds}}.",
   "replay": "Replay",
   "or_complete_your_profile": "or complete your profile.",
   "save_profile_button": "Save profile",

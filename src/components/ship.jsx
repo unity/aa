@@ -3,6 +3,7 @@ import React     from 'react';
 
 import Engine    from '../lib/engine';
 import styles    from '../styles/main.scss';
+import pikadaystyle from 'pikaday/css/pikaday.css';
 
 import Frame     from './frame';
 import Quiz    from './quiz';
@@ -24,9 +25,11 @@ var Ship = React.createClass({
   componentDidMount: function() {
     // This is more robust than embedding the styles in the Iframe's Head using the head="" property
     this.props.styles.use(this.getStyleContainer());
+    pikadaystyle.use(this.getStyleContainer());
   },
   componentWillUnmount: function() {
     this.props.styles.unuse();
+    pikadaystyle.unuse();
     this.props.engine.removeChangeListener(this._onChange);
   },
 
