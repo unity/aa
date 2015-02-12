@@ -1,0 +1,118 @@
+{
+  "displayName": "HullQuiz",
+  "description": "A wonderful quiz for your users",
+  "fullpage": true,
+  "index": "dist/index.html",
+  "demo": "dist/demo.html",
+  "version": "0.0.1",
+  "index": "index.html",
+  "locales": ["en"],
+  "demoKeys": {
+    "appId": "54b90762f53ff765d1000002",
+    "orgUrl": "https://ships-demos.hullbeta.io"
+  },
+  "settings": [
+    {
+      "name": "logo_image",
+      "title": "logo image",
+      "type": "string",
+      "format": "image"
+    }, {
+      "name": "background_image",
+      "title": "Background image",
+      "type": "string",
+      "format": "image"
+    }, {
+      "name": "background_image_opacity",
+      "title": "Background image opacity",
+      "type": "number",
+      "format": "range",
+      "default": 0.8,
+      "maximum": 1,
+      "minimum": 0,
+      "multipleOf": 0.1
+    }, {
+      "name": "background_image_blur",
+      "title": "Background image blur",
+      "type": "number",
+      "format": "range",
+      "default": 0.1,
+      "maximum": 10,
+      "minimum": 0,
+      "multipleOf": 0.1
+    }, {
+      "name": "background_color",
+      "title": "Background color",
+      "type": "string",
+      "format": "color",
+      "default": "#000000"
+    }, {
+      "name": "text_color",
+      "title": "text color",
+      "type": "string",
+      "format": "color",
+      "default": "#ffffff"
+    }, {
+      "name": "button_background_color",
+      "title": "Button background color",
+      "type": "string",
+      "format": "color",
+      "default": "#f39001"
+    }, {
+      "name": "button_text_color",
+      "title": "Button text color",
+      "type": "string",
+      "format": "color",
+      "default": "#ffffff"
+    }, {
+      "name": "auto_start",
+      "title": "Auto Start",
+      "description": "Automatically start the quiz when it's loaded",
+      "type": "boolean",
+      "default": false
+    }, {
+      "name": "display_pagination",
+      "title": "Display pagination",
+      "description": "Display pagination buttons",
+      "type": "boolean",
+      "default": true
+    }, {
+      "name": "shuffle_answers",
+      "title": "Shuffle answers",
+      "description": "Shuffle the order of display for answers",
+      "type": "boolean",
+      "default": true
+    }, {
+      "name": "sample_questions",
+      "title": "Sample Questions",
+      "description": "Only display a number of questions picked randomly",
+      "type": "number",
+      "format": "number",
+      "default": 0
+    }, {
+      "name": "question_timer",
+      "title": "Question timer",
+      "description": "Maximum time to answer a question",
+      "type": "number",
+      "format": "number",
+      "default": 0
+    }, {
+      "name": "quiz_timer",
+      "title": "Quiz timer",
+      "description": "Maximum time to answer all questions",
+      "type": "number",
+      "format": "number",
+      "default": 0
+    }
+  ],
+  "resources": [
+    {
+      "name": "quiz",
+      "type": "quiz"
+    }, {
+      "name": "profile-form",
+      "type": "form"
+    }
+  ],
+  "locales": ["en"]
+}
