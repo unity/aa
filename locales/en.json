@@ -4,14 +4,15 @@
   "introduction_title": "Let's Play",
   "introduction_subtitle": "Play the quiz",
   "play_button": "Play",
-  "play_with_service_button": "Play with {service}",
+  "play_with_service_button": "Jouez avec {service}",
   "loging_in_message": "Waiting for login to complete...",
   "result_title": "Bravo",
   "result_subtitle": "You Scored {score} after {attempts, plural, one{one attempt} other{# attemps}} in {seconds, plural, one{one second} other{# seconds}}.",
   "replay": "Replay",
-  "or_complete_your_profile": "or complete your profile.",
+  "complete_your_profile": "Complete your profile",
   "save_profile_button": "Save profile",
   "thanks_title": "Thanks for playing!",
   "thanks_subtitle": "Thanks subtitle",
-  "footer_message":"Ⓒ Hull 2015"
+  "see_who_played":"Et découvrez lesquels de vos amis ont participé",
+  "footer_message":"Ⓒ Silenzio, Hull 2015"
 }

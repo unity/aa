@@ -22,8 +22,9 @@ var ACTIONS = [
   'resetState',
   'resetTranslations',
   'resetUser',
-  'selectAnswer',
-  'selectQuestion',
+  'selectResource',
+  'selectQuizAnswer',
+  'selectQuizQuestion',
   'share',
   'signup',
   'submitForm',
@@ -69,6 +70,11 @@ function Engine(deployment) {
 }
 
 assign(Engine.prototype, Emitter.prototype, {
+  addChangeListener: function(listener) {this.addListener(EVENT, listener);},
+  removeChangeListener: function(listener) {this.removeListener(EVENT, listener);},
+  emitChange: function(message) {this.emit(EVENT, message);},
+
+
   getActions: function() {
     if (this._actions) { return this._actions; }
 
@@ -81,29 +87,31 @@ assign(Engine.prototype, Emitter.prototype, {
     return this._actions;
   },
 
+
+  resetState: function() {
+    this.resetTranslations();
+    this.resetUser();
+    this._setInitialState(this._user,this._ship);
+  },
   getState: function() {
+    var self=this;
+    _.map(this._quizzes, function(quiz){
+      self.updateCountdown(quiz);
+      self.updateCurrentStep(quiz);
+      self.updateCurrentQuestion(quiz);
+    });
+
     var state = {
+
       user                 : this._user ? this._user : undefined,
       identities           : this._identities,
       providers            : this.getProviders(),
       error                : this._error,
+
       ship                 : this._ship,
       settings             : this._settings,
-
-      form                 : this._form,
-      quiz                 : this._quiz,
-      badge                : this._badge,
-      questions            : this._questions,
-      countdown            : this._countdown,
-      currentStep          : this._getCurrentStep(),
-      quizIsStarted        : this._quizIsStarted,
-      quizStartedAt        : this._quizStartedAt,
-      quizIsFinished       : this._quizIsFinished,
-      quizFinishedAt       : this._quizFinishedAt,
-      formIsSubmitted      : this._formIsSubmitted,
-      currentQuestion      : this._getQuestion(this._currentQuestionIndex),
-      currentQuestionIndex : this._currentQuestionIndex,
-      answers              : this._answers,
+      resources            : this._resources,
+      selectedResource     : this._selectedResource,
 
       isInitializing       : this._isInitializing,
       isWorking            : this._isLoggingIn || this._isLoggingOut || this._isLinking || this._isUnlinking,
@@ -116,26 +124,83 @@ assign(Engine.prototype, Emitter.prototype, {
     return state;
   },
 
-  addChangeListener: function(listener) {
-    this.addListener(EVENT, listener);
+  _setInitialState: function(user, ship) {
+    var self=this;
+
+    this._settings = ship.settings;
+    this._resources = this._ship.resources;
+
+    // Add "key" inside the resources
+    _.map(this._resources,function(v,k){v.key = k;});
+
+    // Prepare resource collections filtered by type;
+    this._quizzes = _.where(this._resources,{type:'quiz'});
+    this._forms   = _.where(this._resources,{type:'form'});
+
+    _.map(this._quizzes, function(quiz){
+      self.resetQuizState(quiz);
+      self.updateLeaderboard(quiz);
+      self.updateQuestions(quiz);
+      self.updateCountdown(quiz);
+      self.updateCurrentStep(quiz);
+      self.updateCurrentQuestion(quiz);
+    });
+
+    _.map(this._forms, function(form){
+      self.resetFormState(form);
+    });
+
+    this._error = null;
+    this._isLoggingIn = false;
+    this._isLoggingOut = false;
+    this._isLinking = false;
+    this._isUnlinking = false;
   },
 
-  removeChangeListener: function(listener) {
-    this.removeListener(EVENT, listener);
+
+  resetQuizState: function(quiz){
+    quiz.currentQuestionIndex = 0;
+    quiz.answers = {};
+    quiz.isStarted = false;
+    quiz.startedAt = null;
+    quiz.isFinished = false;
+    quiz.finishedAt = null;
+    return quiz;
+  },
+  updateQuestions: function(quiz){
+    var questions = this._getQuestions(quiz);
+    quiz._original_questions = quiz.questions;
+    quiz.questions = questions;
+    return quiz;
+  },
+  updateCurrentStep: function(quiz){
+    var s = this._getStep(quiz)
+    quiz.currentStep = s;
+    return s;
+  },
+  updateCurrentQuestion: function(quiz){
+    var q= this._getCurrentQuestion(quiz)
+    quiz.currentQuestion = q;
+    return q;
+  },
+  updateLeaderboard: function(quiz){
+    Hull.api(quiz.id+'/leaderboards/score').then(function(res) {
+      quiz.leaderboard=res;
+      this.emitChange();
+    }.bind(this), function(error) {
+      console.log(error);
+      // TODO handle API errors.
+    });
+  },
+  updateCountdown: function(quiz){
+    quiz.countdown = (this._settings.quiz_countdown > 0) && this._settings.quiz_countdown;
+  },
+  resetFormState: function(form){
+    form.isSubmitted=false;
   },
 
-  emitChange: function(message) {
-    this.emit(EVENT, message);
-  },
 
 
-
-
-  resetState: function() {
-    this.resetTranslations();
-    this.resetUser();
-    this._setInitialState(this._user,this._ship);
-  },
 
   resetUser: function() {
     this._user = Hull.currentUser();
@@ -149,18 +214,6 @@ assign(Engine.prototype, Emitter.prototype, {
 
     this._identities = identities;
   },
-
-  resetTranslations: function() {
-    this._translations = {};
-    var translations = this._ship.translations.en;
-    for (var k in translations) {
-      if (translations.hasOwnProperty(k)) {
-        this._translations[k] = new IntlMessageFormat(translations[k], 'en-US');
-      }
-    }
-  },
-
-
 
 
   getProviders: function() {
@@ -228,6 +281,9 @@ assign(Engine.prototype, Emitter.prototype, {
 
     return promise;
   },
+
+
+
   share: function(provider) {
     Hull.share({
       provider: provider,
@@ -242,7 +298,15 @@ assign(Engine.prototype, Emitter.prototype, {
 
 
 
-
+  resetTranslations: function() {
+    this._translations = {};
+    var translations = this._ship.translations.en;
+    for (var k in translations) {
+      if (translations.hasOwnProperty(k)) {
+        this._translations[k] = new IntlMessageFormat(translations[k], 'en-US');
+      }
+    }
+  },
   translate: function(message, data) {
     var m = this._translations[message];
     if (m === null || m===undefined) { return message; }
@@ -251,30 +315,6 @@ assign(Engine.prototype, Emitter.prototype, {
 
 
 
-
-
-  _setInitialState: function(user, ship) {
-    this._quiz = this._ship.resources.quiz;
-    this._form = this._ship.resources['profile-form'];
-    this._badge = this._user && this._ship.resources.quiz.badge;
-    this._settings = ship.settings;
-    this._questions = this._getQuestions();
-    this._countdown = (this._settings.quiz_countdown > 0) && this._settings.quiz_countdown;
-    this._currentQuestionIndex = 0;
-    this._answers = {};
-    this._quizIsStarted = false;
-    this._quizStartedAt = null;
-    this._quizIsFinished = false;
-    this._quizFinishedAt = null;
-    this._formIsSubmitted = false;
-
-    this._error = null;
-    this._isLoggingIn = false;
-    this._isLoggingOut = false;
-    this._isLinking = false;
-    this._isUnlinking = false;
-    this._isFavorite = null;
-  },
   reset: function() {
     this.emitChange({ isLoading: 'reset' });
     Hull.api(this._ship.id).then(function(ship) {
@@ -287,18 +327,41 @@ assign(Engine.prototype, Emitter.prototype, {
   },
 
 
+  /* 
+    FORM ACTIONS
+  */
+  submitForm: function(formId, data) {
+    var form = _.findWhere(this._forms,{id:formId});
+    this.emitChange({ isLoading: 'form' });
 
+    var r = Hull.api(form.id + '/submit' ,'put', { data: data });
+    r.then(function(formResponse) {
+      // WARNING. Will this work as expected ?
+      form = assign(form,formResponse);
+      form.isSubmitted = true;
+      this.emitChange();
+    }.bind(this), function(error) {
+      this.emitChange({ error: error });
+    }.bind(this));
+  },
 
+  selectResource: function(resourceKey){
+    this._selectedResource = this._resources[resourceKey];
+    this.emitChange();
+  },
 
-  play: function(provider) {
+  /* 
+    QUIZ ACTIONS
+  */
+  play: function(quizId, provider) {
+    var quiz = _.findWhere(this._quizzes,{id:quizId});
     if (this._user) {
-      this._startQuiz();
+      this._startQuiz(quiz);
     } else if (provider) {
       this.emitChange({ isLoggingIn: true });
-
       Hull.login(provider).then(function() {
         this._user = Hull.currentUser();
-        this._startQuiz();
+        this._startQuiz(quiz);
       }.bind(this), function(error) {
         this.emitChange({ error: error });
       }.bind(this));
@@ -306,85 +369,80 @@ assign(Engine.prototype, Emitter.prototype, {
       throw 'provider is missing...';
     }
   },
-  selectAnswer: function(answer) {
-    this._answers[answer.questionRef] = answer.answerRef;
-    this._next();
+  selectQuizAnswer: function(quizId, answer) {
+    var quiz = _.findWhere(this._quizzes,{id:quizId});
+    quiz.answers[answer.questionRef] = answer.answerRef;
+    this._next(quiz);
   },
-  selectQuestion: function(index) {
-    if (index >= 0 && index < this._questions.length) {
-      this._currentQuestionIndex = index;
+  selectQuizQuestion: function(quizId, index) {
+    var quiz = _.findWhere(this._quizzes,{id:quizId});
+    if (index >= 0 && index < quiz.questions.length) {
+      quiz.currentQuestionIndex = index;
       this.emitChange();
     } else {
-      throw 'index must be between 0 and' + (this._questions.length - 1);
+      throw 'index must be between 0 and' + (quiz.questions.length - 1);
     }
   },
-  finishQuiz: function() {
+  finishQuiz: function(quizId) {
+    var quiz = _.findWhere(this._quizzes,{id:quizId});
     this.emitChange({ isLoading: 'quiz' });
 
-    this._clearTicker();
+    this._clearTicker(quiz);
 
-    this._quizFinishedAt = new Date();
-
-    Hull.api(this._quiz.id + '/achieve' ,'post', {
-      answers: this._answers,
-      timing: this._quizFinishedAt - this._quizStartedAt
+    quiz.finishedAt = new Date();
+  
+    Hull.api(quiz.id + '/achieve' ,'post', {
+      answers: quiz.answers,
+      timing: quiz.finishedAt - quiz.startedAt
     }, function(badge) {
-      this._quizIsFinished = true;
-      this._badge = badge;
-
+      quiz.isFinished = true;
+      quiz.badge = badge;
       this.emitChange();
     }.bind(this));
   },
-  submitForm: function(data) {
-    this.emitChange({ isLoading: 'form' });
-
-    var r = Hull.api(this._form.id + '/submit' ,'put', { data: data });
-    r.then(function(form) {
-      this._form = form;
-      this._formIsSubmitted = true;
-
-      this.emitChange();
-    }.bind(this), function(error) {
-      this.emitChange({ error: error });
-    }.bind(this));
-  },
 
 
 
 
-  _startQuiz: function() {
-    this._quizIsStarted = true;
-    this._quizStartedAt = new Date();
 
-    this._startTicker();
 
+  /* 
+    QUIZ INTERNAL ACTIONS
+  */
+  _startQuiz: function(quiz) {
+    quiz.isStarted = true;
+    quiz.startedAt = new Date();
+
+    this._startTicker(quiz);
     this.emitChange();
   },
-  _next: function() {
-    var i = this._getNextQuestionIndex();
-    if (i) {
-      this.selectQuestion(i);
-    } else {
-      this.finishQuiz();
+  _prev: function(quiz) {
+    var i = this._getPreviousQuestionIndex(quiz);
+    if (i>=0) {
+      this.selectQuizQuestion(quiz,i);
     }
   },
-  _getCurrentStep: function() {
-    if (!this._user || !this._quizIsStarted) {
+  _next: function(quiz) {
+    var i = this._getNextQuestionIndex(quiz);
+    if (i) {
+      this.selectQuizQuestion(quiz,i);
+    } else {
+      this.finishQuiz(quiz.id);
+    }
+  },
+  _getStep: function(quiz) {
+    if (!this._user || !quiz.isStarted) {
       return Constants.INTRODUCTION_STEP;
-    } else if (this._formIsSubmitted) {
-      return Constants.THANKS_STEP;
-    } else if (this._quizIsFinished) {
+    } else if (quiz.isFinished) {
       return Constants.RESULT_STEP;
-    } else if (this._quizIsStarted && !this._quizIsFinished) {
+    } else if (quiz.isStarted && !quiz.isFinished) {
       return Constants.PLAY_STEP;
     } else {
       throw 'This is not supposed to happen...';
     }
   },
-
-
-  _getQuestions: function() {
-    var questions = this._ship.resources.quiz.questions;
+  _getQuestions: function(quiz) {
+    var questions = quiz.questions;
     if (this._settings.sample_questions > 0) {
       questions = _.sample(questions, this._settings.sample_questions);
     }
@@ -400,43 +458,54 @@ assign(Engine.prototype, Emitter.prototype, {
       return q;
     }, this);
   },
-  _getQuestion: function(index) {
-    return this._questions[index];
+  _getCurrentQuestion: function(quiz){
+    return quiz.questions[quiz.currentQuestionIndex];
   },
-  _getNextQuestionIndex: function() {
-    return (this._currentQuestionIndex !== this._questions.length - 1) && this._currentQuestionIndex + 1;
+  _getQuestion: function(quiz, index) {
+    return quiz.questions[index];
   },
-  _getPreviousQuestionIndex: function() {
-    return (this._currentQuestionIndex > 0) && this._currentQuestionIndex - 1;
+  _getNextQuestionIndex: function(quiz) {
+    return (quiz.currentQuestionIndex !== quiz.questions.length - 1) && quiz.currentQuestionIndex + 1;
+  },
+  _getPreviousQuestionIndex: function(quiz) {
+    return (quiz.currentQuestionIndex > 0) && quiz.currentQuestionIndex - 1;
   },
 
 
-  _startTicker: function() {
-    this._ticker = setInterval(this._tick.bind(this), 1000);
+
+  /* 
+    QUIZ TIMER ACTIONS
+  */
+
+  _startTicker: function(quiz) {
+    var self=this;
+    quiz._ticker = setInterval(function(){
+      self._tick(quiz)
+    }, 1000);
   },
-  _clearTicker: function() {
-    clearInterval(this._ticker);
+  _clearTicker: function(quiz) {
+    clearInterval(quiz._ticker);
   },
-  _tick: function() {
+  _tick: function(quiz) {
     // TODO This is not perfect...
     var emit = false;
 
-    if (_.isNumber(this._countdown)) {
-      if (this._countdown > 0) {
+    if (_.isNumber(quiz._countdown)) {
+      if (quiz._countdown > 0) {
         emit = true;
-        this._countdown--;
-      } else if (this._countdown === 0) {
-        this.finishQuiz();
+        quiz._countdown--;
+      } else if (quiz._countdown === 0) {
+        this.finishQuiz(quiz.id);
       }
     }
 
-    var q = this._getQuestion(this._currentQuestionIndex);
+    var q = this._getCurrentQuestion(quiz);
     if (_.isNumber(q.countdown)) {
       if (q.countdown > 0) {
         emit = true;
         q.countdown--;
       } else if (q.countdown === 0) {
-        this._next();
+        this._next(quiz);
       }
     }
 

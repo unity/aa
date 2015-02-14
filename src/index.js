@@ -1,5 +1,6 @@
 import Hull from './lib/hull-init';
 import Translations from '../locales/en.json';
+import Manifest from '../manifest.json';
 import Engine    from './lib/engine';
 import styles    from './styles/main.scss';
 
@@ -32,7 +33,7 @@ var appInit = function(hull, me, platform, org){
 
   deployment.ship.translations.en = Translations;
 
-  // Fake the Homepage URL for the embedded ship
+  // Fake the Homepage URL, and the manifest for the embedded ship
   // deployment.ship.index = deployment.ship.manifest.index
   // deployment.ship.index = '/'+deployment.ship.manifest.index
   deployment.ship.index = deployment.ship.manifest.index
@@ -46,7 +47,7 @@ var appInit = function(hull, me, platform, org){
   };
 
   // For full apps, do this to embed the ship in a raw way.......
-  App.start(document.getElementById('ship'),deployment);
+  App.start(document.getElementsByClassName('ship')[0],deployment);
   // Only one ship testing at a time, but Hull.embed expects an array;
   // Hull.embed([deployment]);
   

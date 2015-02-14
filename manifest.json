@@ -14,17 +14,22 @@
   "settings": [
     {
       "name": "logo_image",
-      "title": "logo image",
+      "title": "logo Image",
       "type": "string",
       "format": "image"
     }, {
-      "name": "background_image",
-      "title": "Background image",
+      "name": "quiz_1_background_image",
+      "title": "Quiz 1 Background Image",
+      "type": "string",
+      "format": "image"
+    },{
+      "name": "quiz_2_background_image",
+      "title": "Quiz 2 Background Image",
       "type": "string",
       "format": "image"
     }, {
       "name": "background_image_opacity",
-      "title": "Background image opacity",
+      "title": "Background Image Opacity",
       "type": "number",
       "format": "range",
       "default": 0.8,
@@ -33,7 +38,7 @@
       "multipleOf": 0.1
     }, {
       "name": "background_image_blur",
-      "title": "Background image blur",
+      "title": "Background Image blur",
       "type": "number",
       "format": "range",
       "default": 0.1,
@@ -42,25 +47,46 @@
       "multipleOf": 0.1
     }, {
       "name": "background_color",
-      "title": "Background color",
+      "title": "Background Color",
       "type": "string",
       "format": "color",
       "default": "#000000"
     }, {
+      "name": "navbar_opacity",
+      "title": "Navbar Opacity",
+      "type": "number",
+      "format": "range",
+      "default": 0.4,
+      "maximum": 1,
+      "minimum": 0,
+      "multipleOf": 0.1
+    }, {
+      "name": "navbar_color",
+      "title": "Navbar Background Color",
+      "type": "string",
+      "format": "color",
+      "default": "#000000"
+    }, {
+      "name": "navbar_text_color",
+      "title": "Navbar Text Color",
+      "type": "string",
+      "format": "color",
+      "default": "#ffffff"
+    }, {
       "name": "text_color",
-      "title": "text color",
+      "title": "text Color",
       "type": "string",
       "format": "color",
       "default": "#ffffff"
     }, {
       "name": "button_background_color",
-      "title": "Button background color",
+      "title": "Button Background Color",
       "type": "string",
       "format": "color",
       "default": "#f39001"
     }, {
       "name": "button_text_color",
-      "title": "Button text color",
+      "title": "Button text Color",
       "type": "string",
       "format": "color",
       "default": "#ffffff"
@@ -76,42 +102,15 @@
       "description": "Display pagination buttons",
       "type": "boolean",
       "default": true
-    }, {
-      "name": "shuffle_answers",
-      "title": "Shuffle answers",
-      "description": "Shuffle the order of display for answers",
-      "type": "boolean",
-      "default": true
-    }, {
-      "name": "sample_questions",
-      "title": "Sample Questions",
-      "description": "Only display a number of questions picked randomly",
-      "type": "number",
-      "format": "number",
-      "default": 0
-    }, {
-      "name": "question_timer",
-      "title": "Question timer",
-      "description": "Maximum time to answer a question",
-      "type": "number",
-      "format": "number",
-      "default": 0
-    }, {
-      "name": "quiz_timer",
-      "title": "Quiz timer",
-      "description": "Maximum time to answer all questions",
-      "type": "number",
-      "format": "number",
-      "default": 0
     }
   ],
   "resources": [
     {
-      "name": "quiz",
+      "name": "quiz_1",
       "type": "quiz"
     }, {
-      "name": "profile-form",
-      "type": "form"
+      "name": "quiz_2",
+      "type": "quiz"
     }
   ],
   "locales": ["en"]

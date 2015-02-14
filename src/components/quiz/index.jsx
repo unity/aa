@@ -17,6 +17,7 @@ var Steps = {
 var Quiz = React.createClass({
   getDefaultProps: function() {
     return {
+      resource:{},
       ship: {},
       providers:{}
     };
@@ -29,24 +30,23 @@ var Quiz = React.createClass({
     }
   },
   renderHeader: function(){
-    if(this.props.settings.logo_image){
+    if(this.props.resource.picture){
       return <header className="header">
-        <img src={this.props.settings.logo_image} className="logo"/>
+        <img src={this.props.resource.picture} className="logo"/>
       </header>
     }
   },
   renderStep: function(){
-    var Step=Steps['result_step'];
-    return <Step {...this.props}/>;
+    if(this.props.resource.currentStep){
+      var Step=Steps[this.props.resource.currentStep];
+      return <Step {...this.props}/>;
+    }
   },
   render: function() {
     return (
-      <div className="ship">
+      <div>
         {this.renderHeader()}
         {this.renderStep()}
-        <footer className="footer">
-          <p>{this.props.actions.translate('footer_message')}</p>
-        </footer>
       </div>
     )
   }

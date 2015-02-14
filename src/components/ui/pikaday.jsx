@@ -2,6 +2,7 @@
 
 var React = require('react');
 var Pikaday = require('pikaday');
+var style = require('pikaday/css/pikaday.css');
 
 var ReactPikaday = React.createClass({
 
@@ -13,6 +14,10 @@ var ReactPikaday = React.createClass({
       value: React.PropTypes.instanceOf(Date),
       requestChange: React.PropTypes.func.isRequired
     })
+  },
+
+  componentWillUnmount: function() {
+    style.unuse();
   },
 
   getValueLink: function(props) {
@@ -37,6 +42,7 @@ var ReactPikaday = React.createClass({
 
   componentDidMount: function() {
     var el = this.refs.pikaday.getDOMNode();
+    style.use(el.parentNode);
     this._picker = new Pikaday({
       field: el,
       onSelect: this.getValueLink(this.props).requestChange
@@ -48,7 +54,6 @@ var ReactPikaday = React.createClass({
   componentWillReceiveProps: function(nextProps) {
     var newDate = this.getValueLink(nextProps).value;
     var lastDate = this.getValueLink(this.props).value;
-
     this.setDateIfChanged(newDate, lastDate);
   },
 

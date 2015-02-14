@@ -1,13 +1,14 @@
 import _         from 'underscore';
 import React     from 'react';
-
-import Router from 'react-router'
+import Router    from 'react-router'
 var {RouteHandler, Route} = Router
 
 import Frame     from './ui/frame';
 import Quiz      from './quiz/index';
 import MainNav   from './ui/nav';
 import Header    from './home/header';
+import Footer    from './home/footer';
+import Style    from './style';
 
 
 var Ship = React.createClass({
@@ -29,7 +30,7 @@ var Ship = React.createClass({
     this.props.styles.use(this.getStyleContainer());
   },
   componentWillUnmount: function() {
-    this.props.styles.unuse();    pikadaystyle.unuse();
+    this.props.styles.unuse();
     this.props.engine.removeChangeListener(this._onChange);
   },
 
@@ -43,15 +44,13 @@ var Ship = React.createClass({
     this.setState(this.props.engine.getState());
   },
 
-  renderContent: function() {
-    return <Quiz  {...this.state} isLoading={this.state.isLoading} settings={this.state.ship.settings} actions={this.props.engine.getActions()}/>
-  },
-
   render: function() {
     return <div>
-      <MainNav/>
-      <Header/>
-      <RouteHandler/>
+      <Style {...this.state.ship.settings}/>
+      <MainNav      {...this.state} actions={this.props.engine.getActions()}/>
+      <Header       {...this.state} />
+      <RouteHandler {...this.state} actions={this.props.engine.getActions()}/>
+      <Footer       {...this.state} actions={this.props.engine.getActions()}/>
     </div>
   }
 });

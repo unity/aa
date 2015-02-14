@@ -1,10 +1,14 @@
 var React = require('react');
+import Router from 'react-router'
+var {RouteHandler, Route} = Router
+
+import Quiz      from '../quiz/index';
 
 var Cesar = React.createClass({
 
   render: function() {
     return (
-      <div>cesar</div>
+      <RouteHandler {...this.props}/>
     );
   }
 

@@ -56,9 +56,9 @@ var RegisterForm = React.createClass({
       }
     }
 
-    return <div className='form-pane'>
+    return <div className='form-light result-form'>
       <Form ref='form' options={options} type={Profile} />
-      <button className='button' onClick={this.onClick}>{this.props.actions.translate('save_profile_button')}</button>
+      <button className='btn btn-primary btn-pill' onClick={this.onClick}>{this.props.actions.translate('save_profile_button')}</button>
     </div>;
   }
 
