@@ -1,7 +1,7 @@
 import _                    from 'underscore';
-import React               from 'react';
+import React                from 'react';
 
-import LoginButtons from '../quiz/login-buttons';
+import LoginButtons         from '../quiz/login-buttons';
 import Router               from 'react-router';
 var {RouteHandler, Route, Link} = Router
 
@@ -23,10 +23,10 @@ var Home = React.createClass({
   renderPlayButtons: function(){
     var quizzes = _.where(this.props.resources,{type:'quiz'});
     var navItems = _.map(quizzes,function(quiz){
-      return <NavItemLink ref={'nav-link-'+quiz.key} to='quiz' params={{resourceKey:quiz.key}}>{quiz.name}</NavItemLink>
+      return <Link className='btn btn-tertiary btn-pill' ref={'nav-link-'+quiz.key} to='resource-step' params={{resourceKey:quiz.key,step:0}}>{quiz.name}</Link>
     });
 
-    return <Nav bsClass='pills'>{navItems}</Nav>
+    return <div>{navItems}</div>
   },
   render: function() {
     var actions;
@@ -42,10 +42,11 @@ var Home = React.createClass({
         <div className="row">
           <div className="col-md-8 col-md-offset-2 pt-1">
             <h4 className='light'>Personne mieux que vous ne saurait pronostiquer les résultats des César&nbsp;?</h4>
-            <p>Vous connaissez tellement bien l’Academy Of Motion Picture Arts and Science que vous savez déjà qui gagnera un Oscar cette année&nbsp;?<br/>Vous êtes le Brian De Palmarès des pronostics ?</p><h4>Prouvez-le&nbsp;!</h4>
+            <p>Vous connaissez tellement bien l’Academy Of Motion Picture Arts and Science que vous savez déjà qui gagnera un Oscar cette année&nbsp;?<br/>Vous êtes le Brian De Palmarès des pronostics ?</p>
+            <strong>Prouvez-le&nbsp;!</strong>
             <p>Pronostiquez les résultats des César et des Oscars et montez sur le podium de l’Awards Academy.</p>
-            <p>Vous pourrez même imprimer vos pronostics pour votre soirée César/Oscars entre amis.</p><h4>À vos marques… Prêts&nbsp;?... PRONOSTIQUEZ&nbsp;!</h4>
-            <div className="pt-3">{actions}</div>
+            <p>Vous pourrez même imprimer vos pronostics pour votre soirée César/Oscars entre amis.</p>
+            <div className="pt-2">{actions}</div>
           </div>
         </div>
       </div>

@@ -5,11 +5,18 @@ var Emitter = require('events').EventEmitter;
 var IntlMessageFormat = require('intl-messageformat');
 var _ = require('underscore');
 
+import React from 'react';
+
+import Router from 'react-router';
+var {RouteHandler, Route, Link} = Router
+
 var EVENT = 'QUIZ_CHANGE';
 
 var ACTIONS = [
   'finishQuiz',
   'getActions',
+  'getNextStep',
+  'getPrevStep',
   'getProviders',
   'getState',
   'linkIdentity',
@@ -22,9 +29,9 @@ var ACTIONS = [
   'resetState',
   'resetTranslations',
   'resetUser',
-  'selectResource',
   'selectQuizAnswer',
-  'selectQuizQuestion',
+  'setQuizQuestion',
+  'setActiveResource',
   'share',
   'signup',
   'submitForm',
@@ -96,7 +103,6 @@ assign(Engine.prototype, Emitter.prototype, {
   getState: function() {
     var self=this;
     _.map(this._quizzes, function(quiz){
-      self.updateCountdown(quiz);
       self.updateCurrentStep(quiz);
       self.updateCurrentQuestion(quiz);
     });
@@ -181,7 +187,6 @@ assign(Engine.prototype, Emitter.prototype, {
   updateCurrentQuestion: function(quiz){
     var q= this._getCurrentQuestion(quiz)
     quiz.currentQuestion = q;
-    return q;
   },
   updateLeaderboard: function(quiz){
     Hull.api(quiz.id+'/leaderboards/score').then(function(res) {
@@ -327,6 +332,20 @@ assign(Engine.prototype, Emitter.prototype, {
   },
 
 
+
+  setActiveResource: function(resourceKey){
+    this._selectedResource = this._resources[resourceKey];
+    this.emitChange();
+  },
+  setQuizQuestion: function(quizKey, index) {
+    var quiz = this._resources[quizKey];
+    this._selectQuizQuestion(quiz, index);
+    this.emitChange();
+  },
+
+
+
+
   /* 
     FORM ACTIONS
   */
@@ -343,11 +362,6 @@ assign(Engine.prototype, Emitter.prototype, {
     }.bind(this), function(error) {
       this.emitChange({ error: error });
     }.bind(this));
-  },
-
-  selectResource: function(resourceKey){
-    this._selectedResource = this._resources[resourceKey];
-    this.emitChange();
   },
 
   /* 
@@ -372,19 +386,9 @@ assign(Engine.prototype, Emitter.prototype, {
   selectQuizAnswer: function(quizId, answer) {
     var quiz = _.findWhere(this._quizzes,{id:quizId});
     quiz.answers[answer.questionRef] = answer.answerRef;
-    this._next(quiz);
   },
-  selectQuizQuestion: function(quizId, index) {
-    var quiz = _.findWhere(this._quizzes,{id:quizId});
-    if (index >= 0 && index < quiz.questions.length) {
-      quiz.currentQuestionIndex = index;
-      this.emitChange();
-    } else {
-      throw 'index must be between 0 and' + (quiz.questions.length - 1);
-    }
-  },
-  finishQuiz: function(quizId) {
-    var quiz = _.findWhere(this._quizzes,{id:quizId});
+  finishQuiz: function(resourceKey) {
+    var quiz = this._resources[resourceKey];
     this.emitChange({ isLoading: 'quiz' });
 
     this._clearTicker(quiz);
@@ -400,10 +404,18 @@ assign(Engine.prototype, Emitter.prototype, {
       this.emitChange();
     }.bind(this));
   },
-
-
-
-
+  getNextStep: function(resourceKey, step){
+    var resource = this._resources[resourceKey];
+    var i = this._getNextQuestionIndex(resource,step);
+    if(i){return i;}
+    return Constants.RESULT_STEP;
+  },
+  getPrevStep: function(resourceKey, step){
+    var resource = this._resources[resourceKey];
+    var i = this._getPreviousQuestionIndex(resource,step);
+    if(i){return i;}
+    return Constants.INTRODUCTION_STEP;
+  },
 
 
   /* 
@@ -419,13 +431,13 @@ assign(Engine.prototype, Emitter.prototype, {
   _prev: function(quiz) {
     var i = this._getPreviousQuestionIndex(quiz);
     if (i>=0) {
-      this.selectQuizQuestion(quiz,i);
+      this._selectQuizQuestion(quiz,i);
     }
   },
   _next: function(quiz) {
     var i = this._getNextQuestionIndex(quiz);
     if (i) {
-      this.selectQuizQuestion(quiz,i);
+      this._selectQuizQuestion(quiz,i);
     } else {
       this.finishQuiz(quiz.id);
     }
@@ -441,6 +453,18 @@ assign(Engine.prototype, Emitter.prototype, {
       throw 'This is not supposed to happen...';
     }
   },
+  _selectQuizQuestion: function(quiz,index){
+    index=parseInt(index);
+    if(quiz){
+      if (index >= 0 && index < quiz.questions.length) {
+        quiz.currentQuestionIndex = index;
+      } else {
+        quiz.currentQuestionIndex=0;
+        // throw 'index must be between 0 and ' + (quiz.questions.length - 1);
+      }
+    }
+  },
+
   _getQuestions: function(quiz) {
     var questions = quiz.questions;
     if (this._settings.sample_questions > 0) {
@@ -458,17 +482,17 @@ assign(Engine.prototype, Emitter.prototype, {
       return q;
     }, this);
   },
-  _getCurrentQuestion: function(quiz){
-    return quiz.questions[quiz.currentQuestionIndex];
-  },
   _getQuestion: function(quiz, index) {
     return quiz.questions[index];
   },
-  _getNextQuestionIndex: function(quiz) {
-    return (quiz.currentQuestionIndex !== quiz.questions.length - 1) && quiz.currentQuestionIndex + 1;
+  _getCurrentQuestion: function(quiz){
+    return this._getQuestion(quiz,quiz.currentQuestionIndex);
   },
-  _getPreviousQuestionIndex: function(quiz) {
-    return (quiz.currentQuestionIndex > 0) && quiz.currentQuestionIndex - 1;
+  _getNextQuestionIndex: function(quiz,question=quiz.currentQuestionIndex) {
+    return (parseInt(question) !== quiz.questions.length - 1) && parseInt(question) + 1;
+  },
+  _getPreviousQuestionIndex: function(quiz, question=quiz.currentQuestionIndex) {
+    return (parseInt(question) > 0) && parseInt(question) - 1;
   },
 
 

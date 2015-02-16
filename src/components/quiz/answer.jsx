@@ -1,4 +1,5 @@
-var React = require('react');
+import React        from 'react';
+import ResizedImage from '../ui/resized-image';
 
 var Answer = React.createClass({
   handleAnswer: function(){
@@ -7,11 +8,14 @@ var Answer = React.createClass({
   render: function() {
     return (
       <a onClick={this.handleAnswer} className="answer">
-        <h4 className="m-0 answer-name">
+        {this.props.children}
+        <ResizedImage height={300} src={this.props.picture} alt="" className="img-responsive" style={{margin:'0 auto'}}/>
+        <h5 className="mt-1 mb-0 answer-name">
           {this.props.name}
           <br/>
           <small>{this.props.description}</small>
-        </h4></a>
+        </h5>
+      </a>
     );
   }
 });

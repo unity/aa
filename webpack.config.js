@@ -15,7 +15,7 @@ module.exports = {
   development:{
    browser: {
       name     : 'browser',
-      devtool  : 'inline-source-map',
+      devtool  : 'eval-source-map',
       devServer: true,
       entry    : devEntry,
       output   : devOutput,

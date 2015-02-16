@@ -1,3 +1,5 @@
+@import './spinner.scss';
+
 .footer{
   text-align: center;
   border-top: 1px solid #e5e5e5;
@@ -36,10 +38,6 @@ h1,h2,h3,h4,h5,h6 {
 
 .step-description {
   margin: 20px 0;
-}
-
-.header .logo {
-  max-height: 100px;
 }
 
 .answer {
@@ -87,4 +85,23 @@ h1,h2,h3,h4,h5,h6 {
 
 .result-form.form-light input[type='date'].form-control{
   height: 40px;
+}
+
+.pager{
+  li>a,li>a:hover, li>a:focus{
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: transparent;
+    border:none;
+    font-weight: 700;
+  }
+  li.active>a, li>a:hover, li>a:focus{
+    color:#fff;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .row-flex {
+    display:block
+  }
 }

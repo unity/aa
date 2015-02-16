@@ -18,10 +18,10 @@ var MainNav = React.createClass({
   render: function() {
     var quizzes = _.where(this.props.resources,{type:'quiz'});
     var navItems = _.map(quizzes,function(quiz){
-      return <NavItemLink ref={'nav-link-'+quiz.key} to='quiz' params={{resourceKey:quiz.key}}>{quiz.name}</NavItemLink>
+      return <NavItemLink to='resource-step' ref={'nav-link-'+quiz.key} params={{resourceKey:quiz.key,step:0}}>{quiz.name}</NavItemLink>
     });
     return (
-      <Navbar className='navbar-main' staticTop={true} fluid={true} toggleNavKey={1}>
+      <Navbar className='navbar-main navbar-inverse' staticTop={true} fluid={true} toggleNavKey={1}>
         <Nav key={1} className='collapse navbar-collapse'>
           <NavItemLink to="/">Home</NavItemLink>
           {navItems}

@@ -8,7 +8,7 @@ var Header = React.createClass({
     return (
       <div className="container-fluid pt-2 header">
         <div className="row">
-          <div className="col-sm-6 col-sm-offset-3 text-center">
+          <div className="col-sm-4 col-sm-offset-4 text-center">
             <img src={logo} style={{margin:"0 auto"}} className='logo img-responsive'/>
           </div>
         </div>

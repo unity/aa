@@ -15,7 +15,7 @@ var manifest = require('./manifest.json');
 var sourceFolder = 'src';
 var outputFolder = 'dist';
 var assetsFolder = 'assets';
-var serverPort   = process.env.PORT||8080;
+var serverPort   = process.env.PORT||8081;
 var previewUrl   = 'http://localhost:'+serverPort+'/';
 
 // DO NOT CHANGE SHIP ENTRY

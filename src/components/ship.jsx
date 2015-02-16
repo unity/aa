@@ -1,14 +1,14 @@
 import _         from 'underscore';
 import React     from 'react';
 import Router    from 'react-router'
-var {RouteHandler, Route} = Router
+var {RouteHandler} = Router
 
 import Frame     from './ui/frame';
 import Quiz      from './quiz/index';
 import MainNav   from './ui/nav';
 import Header    from './home/header';
 import Footer    from './home/footer';
-import Style    from './style';
+import Style     from './style';
 
 
 var Ship = React.createClass({

@@ -1,18 +1,36 @@
 import React from 'react';
-import Answer from './answer';
+import Answers from './answers';
+import ResizedImage from '../ui/resized-image';
 
 var Question = React.createClass({
-  handleAnswer: function(answer){
-    this.props.onAnswer(answer)
+  // <div className="col-sm-6">{this.renderQuestionPicture()}</div>
+  renderAnswers(){
+    return <Answers answers={this.props.answers} onAnswer={this.props.onAnswer}/>
   },
-  render: function() {
-    var answers = this.props.answers.map(function(answer){
-      var description;
-      if(answer.description) description=<p className="answer-description">{answer.description}</p>;
-      return <Answer {...answer} _ref={answer.ref} onAnswer={this.handleAnswer}/>
-    },this);
-    return <div className="answers">{answers}</div>
+
+  renderQuestionDescription(){
+    if(!this.props.description) return;
+    return <p className="mb-2 mt-0">{this.props.description}</p>
+  },
+  renderQuestionPicture(){
+    if(!this.props.picture) return;
+    return <ResizedImage className='img-responsive' src={this.props.picture} />
+  },
+  renderQuestionCountdown(){
+    if(!this.props.countdown) return;
+    return <Countdown max={this.props.settings.question_countdown} value={this.props.countdown}/>
+  },
+  render() {
+    return (
+      <div>
+        <h1 className="mb-0">{this.props.name}</h1>
+        {this.renderQuestionDescription()}
+        {this.renderQuestionCountdown()}
+        {this.renderAnswers()}
+      </div>
+    );
   }
+
 });
 
-module.exports = Question;
+export default Question;

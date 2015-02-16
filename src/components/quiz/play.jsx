@@ -1,43 +1,44 @@
-import assign from 'object-assign';
-import React from 'react';
-import Countdown from './countdown';
-import Answers from './question';
+import _                    from 'underscore-contrib';
+import React                from 'react';
+import Router               from 'react-router';
+var {RouteHandler, Route, Link} = Router
+
+import Countdown            from './countdown';
+import Progress             from './progress';
+import Question             from './question';
 
 var Play = React.createClass({
+  mixins: [Router.State, Router.Navigation],
 
-  handleAnswer: function(answer){
-    this.props.actions.selectQuizAnswer(this.props.resource.id, answer);
+  getInitialState() {
+    return {
+      question:{} 
+    };
   },
-  renderCountdown: function(){
+  handleAnswer(answer){
+    this.props.actions.selectQuizAnswer(this.props.resource.id, answer);
+    var {resourceKey, step}=this.getParams();
+    var step = this.props.actions.getNextStep(resourceKey,step);
+    this.transitionTo('resource-step',{step, resourceKey});
+  },
+  renderCountdown(){
     if(!this.props.countdown) return;
     return <Countdown max={this.props.settings.quiz_countdown} value={this.props.countdown}/>
   },
-  renderQuestionDescription: function(){
-    if(!this.props.resource.currentQuestion.description) return;
-    return <p className="mb-2 mt-0">{this.props.resource.currentQuestion.description}</p>
+  renderProgress(){
+    if(!_.hasPath(this.props,'resource.currentQuestionIndex')||!_.hasPath(this.props,'resource.questions.length')) return;
+    return <Progress {...this.props.resource} current={this.props.resource.currentQuestionIndex+1} total={this.props.resource.questions.length} actions={this.props.actions}/>
   },
-  renderQuestionCountdown: function(){
-    if(!this.props.resource.currentQuestion.countdown) return;
-    return <Countdown max={this.props.settings.question_countdown} value={this.props.resource.currentQuestion.countdown}/>
+  renderQuestion(){
+    if(!_.hasPath(this.props,'resource.currentQuestion')) return;
+    return <Question {...this.props.resource.currentQuestion} onAnswer={this.handleAnswer} settings={this.props.settings} actions={this.props.actions}/>
   },
-  renderAnswers: function(){
-    return <Answers {...this.props.resource.currentQuestion} onAnswer={this.handleAnswer}/>
-  },
-  renderQuestionPicture: function(){
-    if(!this.props.resource.currentQuestion.picture) return;
-    return <img className='img-responsive' src={this.props.resource.currentQuestion.picture} />
-  },
-  render: function() {
+  render() {
     return (
       <div>
-        <h1 className="mb-0">{this.props.resource.currentQuestion.name}</h1>
         {this.renderCountdown()}
-        {this.renderQuestionDescription()}
-        {this.renderQuestionCountdown()}
-        <div className="row">
-          <div className="col-sm-6">{this.renderQuestionPicture()}</div>
-          <div className="col-sm-6">{this.renderAnswers()}</div>
-        </div>
+        {this.renderProgress()}
+        {this.renderQuestion()}
       </div>
     );
   }

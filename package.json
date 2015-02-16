@@ -35,11 +35,15 @@
     "react": ">=0.12.2",
     "react-bootstrap": "^0.14.0",
     "react-css-builder": "^0.2.0",
+    "react-imageloader": "^1.1.2",
+    "react-loadermixin": "^1.0.4",
+    "react-packery-mixin": "^0.1.4",
     "react-pikaday": "^0.1.0",
     "react-router": "^0.12.0",
     "react-router-bootstrap": "^0.8.3",
     "tcomb-form": "^0.4.1",
-    "underscore": "^1.7.0"
+    "underscore": "^1.7.0",
+    "underscore-contrib": "^0.3.0"
   },
   "devDependencies": {
     "6to5": "^2.11.4",

@@ -1,0 +1,41 @@
+$ncirc: 5;
+$color: #fff;
+
+.spinner{
+  animation: spin 5s infinite linear;
+  width: 50px;
+  height: 53px;
+  border-radius: 100%;
+  margin:0 auto;
+  top: 45%;
+  .circle{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    .inner{
+      width: 100%;
+      height: 100%;
+      border-radius: 100%;
+      border: 5px solid transparentize($color, 0.3);
+      border-right: none;
+      border-top: none;
+      background-clip: padding;
+      box-shadow: inset 0px 0px 10px transparentize($color, 0.85);
+    }
+  }
+}
+    
+    
+@keyframes spin{
+  from {transform: rotate(0deg);}
+  to {transform: rotate(360deg);}
+}
+
+@for $i from 0 through $ncirc {
+  .spinner{
+    .circle:nth-of-type(#{$i}){
+      transform: rotate($i * 70deg);
+      .inner{ animation: spin 2s infinite linear;}
+    }
+  }
+} 

@@ -34,7 +34,7 @@ var Style = React.createClass({
       }
 
       .ship::after {
-        background: url(${this.props.background_image});
+        background-image: url(${this.props.background_image});
         opacity: ${this.props.background_image_opacity};
         filter: blur(${this.props.background_image_blur}px);
         -webkit-filter: blur(${this.props.background_image_blur}px);
@@ -54,13 +54,12 @@ var Style = React.createClass({
       .progress .meter {
         background-color: ${this.props.button_background_color}
       }
-
-      .btn {
+      .btn.btn-brand {
         color: ${this.props.button_text_color};
         background-color: ${this.props.button_background_color}
       }
 
-      .btn:hover, .btn:focus {
+      .btn.btn-brand:hover, .btn.btn-brand:focus {
         background-color: ${Color(this.props.button_background_color).clearer(.9).hslString()}
       }
 
@@ -76,6 +75,9 @@ var Style = React.createClass({
         color: ${this.props.text_color};
         box-shadow:none;
         background-color: ${Color(this.props.background_color).clearer(.4).hslString()};
+      }
+      .pager li>a{
+        color: ${Color(this.props.text_color).clearer(.7).hslString()};
       }
     `
     // Can't find a way to unescape the quotes with template literals;
