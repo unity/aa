@@ -1,12 +1,11 @@
 {
   "name":"awards_academy",
-  "displayName": "Awards Academy",
+  "displayName": "AwardsAcademy",
   "description": "Awards Prediction Game",
   "fullpage": true,
-  "index": "dist/index.html",
-  "demo": "dist/demo.html",
+  "index": "dist/ship.html",
+  "demo": "dist/index.html",
   "version": "0.0.1",
-  "index": "index.html",
   "locales": ["en"],
   "demoKeys": {
     "appId": "54df730586342b86de000008",

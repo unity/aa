@@ -1,11 +1,19 @@
-import React     from 'react';
-import Color     from 'color';
+import React      from 'react';
+import Color      from 'color';
+import MainStyles from '../styles/main.scss';
 
 var Style = React.createClass({
   getDefaultProps() {
     return {
       selectedResource:{} 
     };
+  },
+  componentDidMount() {
+    // This is more robust than embedding the styles in the Iframe's Head using the head="" property
+    MainStyles.use(this.getDOMNode());
+  },
+  componentWillUnmount() {
+    MainStyles.unuse();
   },
   getStyle: function(){
     var key = (this.props.selectedResource.key)?this.props.selectedResource.key:'quiz_1'
@@ -97,7 +105,10 @@ var Style = React.createClass({
   },
   render: function() {
     return (
-      <style>{this.getStyle()}</style>
+      <div>
+        <link rel="stylesheet" href="https://neuestrap.s3.amazonaws.com/releases/neue/b18eaf457f93592526b33ca0f966668a91628036/stylesheets/neue.css"/>
+        <style  media="screen" type="text/css">{this.getStyle()}</style>
+      </div>
     );
   }
 

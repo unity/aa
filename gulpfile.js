@@ -102,8 +102,8 @@ gulp.task('webpack:build:dev', function(callback) {
 gulp.task('webpack:server', function(callback) {
   var taskName = 'webpack:server';
   new WebpackDevServer(devCompiler, {
-    contentBase: {target:'http://localhost:8032/'},
-    publicPath: '/assets/',
+    contentBase: config.outputFolder,
+    publicPath: '/'+config.assetsFolder+'/',
     hot: true,
     stats: {colors: true }
   }).listen(config.serverPort, function(err) {

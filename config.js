@@ -22,7 +22,7 @@ var previewUrl   = 'http://localhost:'+serverPort+'/';
 // WITHOUT UPDATING PACKAGE.JSON TOO
 // THESE ARE THE JS FILES USED AS ENTRY POINTS TO COMPILE YOUR APP
 var entry = {
-  demo:     './'+sourceFolder+'/demo.js',
+  ship:       './'+sourceFolder+'/ship.js',
   index:     './'+sourceFolder+'/index.js'
 }
 
@@ -53,6 +53,8 @@ var output = {
   pathinfo: true,
   filename: '[name].js',
   chunkFileName: '[name].chunk.js',
+  libraryTarget: 'umd',
+  library: displayName,
   publicPath: '/'+assetsFolder+'/'
 }
 

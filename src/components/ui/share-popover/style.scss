@@ -25,11 +25,11 @@ $bg-color:#3B5998;
     padding:0;
     list-style:none;
     .share-popover-button {
-      font-size:20px;
+      font-size:15px;
       cursor:pointer;
       width:60px;
       margin:0;
-      padding:12px 0;
+      padding:10px 0 5px 0;
       text-align:center;
       float:left;
       display:block;
@@ -39,8 +39,8 @@ $bg-color:#3B5998;
           fill:rgba(0,0,0,.5);
         }
       }
-      &[class*="twitter"] {background:#6CDFEA;padding:12px 0;}
-      &[class*="google"]  {background:#E34429;padding:12px 0;}
+      &[class*="twitter"] {background:#6CDFEA;}
+      &[class*="google"]  {background:#E34429;}
     }
     &:after {
       content:'';

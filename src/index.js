@@ -1,31 +1,18 @@
+// TEMPORARY
 import Hull from './lib/hull-init';
 import Translations from '../locales/en.json';
 import Manifest from '../manifest.json';
-import Engine    from './lib/engine';
-import styles    from './styles/main.scss';
+// TEMPORARY
 
-import React     from 'react';
-import AppRouter    from './lib/app-router';
-
-var App = {
-  start: function(element, deployment){
-    var engine = new Engine(deployment);
-    AppRouter.run(function (Handler,state) {
-      engine.setActiveResource(state.params.resourceKey)
-      engine.setQuizQuestion(state.params.resourceKey,state.params.step)
-      React.render(<Handler engine={engine} sandbox={true} styles={styles} />, element);
-    });
-  }
-}
-
-
-
+import App from './app';
 
 var appInit = function(hull, me, platform, org){
+  console.log('Hull Ready')
   // Clone the Ship so we're safely using it
   var platform = JSON.parse(JSON.stringify(platform));
 
-  // Ensure we only have 1 deployment for test mode
+  // Since we're booting the ship fullpage,
+  // we're reworking the deployments object.
   if(platform.type==='ship'){
     var deployment={
       ship:platform,
@@ -38,12 +25,13 @@ var appInit = function(hull, me, platform, org){
     deployment.platform = platform;
   }
 
+  // TEMPORARY
   deployment.ship.translations.en = Translations;
 
   // Fake the Homepage URL, and the manifest for the embedded ship
   // deployment.ship.index = deployment.ship.manifest.index
   // deployment.ship.index = '/'+deployment.ship.manifest.index
-  deployment.ship.index = deployment.ship.manifest.index
+  deployment.ship.index = Manifest.index.replace(/dist\//,'');
 
   // Fake deployment options to insert the ship in the test page.
   deployment.settings = {
@@ -52,11 +40,16 @@ var appInit = function(hull, me, platform, org){
     $multi:true,
     $fullpage: false
   };
-  // For full apps, do this to embed the ship in a raw way.......
-  App.start(document.getElementsByClassName('ship')[0],deployment);
+
+  // For full apps, do this to embed the ship without going through HTML imports.
+  App.start(document.getElementById('ship'),deployment);
+
+  // When embedded by Hull. this is how the app will be booted:
+  // 
   // Only one ship testing at a time, but Hull.embed expects an array;
   // Hull.embed([deployment]);
-  
+  // This will call the `Hull.onEmbed()` that's inside the app
 }
+
 Hull.init(hullConfig,appInit);
 

@@ -3,7 +3,7 @@ import Router    from 'react-router';
 var {Route, Routes, NotFoundRoute, DefaultRoute, Redirect} = Router;
 
 import Home         from '../components/home';
-import Ship         from '../components/ship';
+import Root         from '../components/root';
 import Resource     from '../components/ui/resource';
 import Rules        from '../components/rules';
 
@@ -16,15 +16,15 @@ import Engine       from '../lib/engine';
 
 
 var routes=  (
-    <Route path='/'                                           handler={Ship} >
-    <DefaultRoute name='home'                                 handler={Home} />
-    <Route name='rules' path='/rules'                         handler={Rules} />
-    <Route name='resource' path=':resourceKey'                handler={Resource} >
-      <DefaultRoute                                           handler={Introduction} />
-      <Route name='resource-results' path={`/:resourceKey/${Engine.Constants.RESULT_STEP}`}              handler={Results} />
-      <Route name='resource-step'   path='/:resourceKey/:step'  handler={Play} ignoreScrollBehavior />
+    <Route path='/'                                           handler={Root} >
+      <DefaultRoute name='home'                                 handler={Home} />
+      <Route name='rules' path='/rules'                         handler={Rules} />
+      <Route name='resource' path=':resourceKey'                handler={Resource} >
+        <DefaultRoute                                           handler={Introduction} />
+        <Route name='resource-results' path={`/:resourceKey/${Engine.Constants.RESULT_STEP}`} handler={Results} />
+        <Route name='resource-step'   path='/:resourceKey/:step'  handler={Play} ignoreScrollBehavior />
+      </Route>
     </Route>
-  </Route>
 );
 
 var AppRouter;

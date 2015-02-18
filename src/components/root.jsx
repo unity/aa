@@ -25,13 +25,18 @@ requestAnimationFrame(tick);
 ReactUpdates.injection.injectBatchingStrategy(rafBatchingStrategy);
 
 
-var Ship = React.createClass({
+var Root = React.createClass({
   mixins: [Router.State, Router.Navigation],
   propTypes: {
     engine: React.PropTypes.object.isRequired,
     sandbox: React.PropTypes.bool,
   },
 
+  getDefaultProps() {
+    return {
+      sandbox:false
+    };
+  },
   getInitialState() {
     return this.props.engine.getState();
   },
@@ -43,34 +48,28 @@ var Ship = React.createClass({
       this.transitionTo('home');
     }
   },
-  componentDidMount() {
-    // This is more robust than embedding the styles in the Iframe's Head using the head="" property
-    this.props.styles.use(this.getStyleContainer());
-  },
   componentWillUnmount() {
-    this.props.styles.unuse();
     this.props.engine.removeChangeListener(this._onChange);
-  },
-
-  getStyleContainer(){
-    if(this.refs && this.refs.frame){
-      return this.refs.frame.getDOMNode().contentDocument.head
-    }
-    return document.getElementsByTagName('head')[0];
   },
   _onChange(event) {
     this.setState(this.props.engine.getState());
   },
-
-  render() {
-    return <div>
+  renderContent(){
+    return <div className='ship'>
       <Style {...this.state.ship.settings} selectedResource={this.state.selectedResource}/>
       <Header       {...this.state} />
       <RouteHandler {...this.state} actions={this.props.engine.getActions()}/>
       <Footer       {...this.state} actions={this.props.engine.getActions()}/>
     </div>
+  },
+  render() {
+    if(this.props.sandbox){
+      return <Frame>{this.renderContent()}</Frame>
+    } else {
+      return this.renderContent()
+    }
   }
 });
 
 
-module.exports = Ship;
+module.exports = Root;

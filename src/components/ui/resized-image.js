@@ -5,7 +5,6 @@ import Spinner from './spinner';
 
 
 var Loading = React.createClass({
-
   render() {
     return (
       <div className='timer'>Loading...</div>
