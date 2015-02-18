@@ -1,33 +1,33 @@
 {
-  "name":"awards_academy",
-  "displayName": "AwardsAcademy",
-  "description": "Awards Prediction Game",
-  "fullpage": true,
-  "index": "dist/ship.html",
-  "demo": "dist/index.html",
-  "version": "0.0.1",
-  "locales": ["en"],
+  "name": "awards-academy",
+  "description": "The original Cesar/Oscar prediction game, with live scores",
+  "index": "index.html",
+  "version": "1.0.0",
   "demoKeys": {
-    "appId": "54df730586342b86de000008",
+    "appId": "54e4bd605431d0593f000003",
     "orgUrl": "https://hulldemos.hullbeta.io"
   },
+  "fullpage": true,
   "settings": [
     {
       "name": "logo_image",
       "title": "logo Image",
       "type": "string",
       "format": "image"
-    }, {
-      "name": "cesar_background_image",
-      "title": "Cesar Background Image",
+    },
+    {
+      "name": "quiz_1_background_image",
+      "title": "Quiz 1 Background Image",
       "type": "string",
       "format": "image"
-    }, {
-      "name": "oscar_background_image",
-      "title": "Oscar Background Image",
+    },
+    {
+      "name": "quiz_2_background_image",
+      "title": "Quiz 2 Background Image",
       "type": "string",
       "format": "image"
-    }, {
+    },
+    {
       "name": "background_image_opacity",
       "title": "Background Image Opacity",
       "type": "number",
@@ -36,7 +36,8 @@
       "maximum": 1,
       "minimum": 0,
       "multipleOf": 0.1
-    }, {
+    },
+    {
       "name": "background_image_blur",
       "title": "Background Image blur",
       "type": "number",
@@ -45,13 +46,15 @@
       "maximum": 10,
       "minimum": 0,
       "multipleOf": 0.1
-    }, {
+    },
+    {
       "name": "background_color",
       "title": "Background Color",
       "type": "string",
       "format": "color",
       "default": "#000000"
-    }, {
+    },
+    {
       "name": "navbar_opacity",
       "title": "Navbar Opacity",
       "type": "number",
@@ -60,49 +63,50 @@
       "maximum": 1,
       "minimum": 0,
       "multipleOf": 0.1
-    }, {
+    },
+    {
       "name": "navbar_color",
       "title": "Navbar Background Color",
       "type": "string",
       "format": "color",
       "default": "#000000"
-    }, {
+    },
+    {
       "name": "navbar_text_color",
       "title": "Navbar Text Color",
       "type": "string",
       "format": "color",
       "default": "#ffffff"
-    }, {
+    },
+    {
       "name": "text_color",
       "title": "text Color",
       "type": "string",
       "format": "color",
       "default": "#ffffff"
-    }, {
+    },
+    {
       "name": "button_background_color",
       "title": "Button Background Color",
       "type": "string",
       "format": "color",
       "default": "#f39001"
-    }, {
+    },
+    {
       "name": "button_text_color",
       "title": "Button text Color",
       "type": "string",
       "format": "color",
       "default": "#ffffff"
-    }, {
-    }, {
-      "name": "twitter_author",
-      "title": "Your twitter account",
-      "type": "string",
-      "format": "string"
-    }, {
+    },
+    {
       "name": "auto_start",
       "title": "Auto Start",
       "description": "Automatically start the quiz when it's loaded",
       "type": "boolean",
       "default": false
-    }, {
+    },
+    {
       "name": "display_pagination",
       "title": "Display pagination",
       "description": "Display pagination buttons",
@@ -112,12 +116,15 @@
   ],
   "resources": [
     {
-      "name": "cesar",
+      "name": "quiz_1",
       "type": "quiz"
-    }, {
-      "name": "oscar",
+    },
+    {
+      "name": "quiz_2",
       "type": "quiz"
     }
   ],
-  "locales": ["en"]
+  "locales": [
+    "en"
+  ]
 }

@@ -7,7 +7,7 @@ import Manifest from '../manifest.json';
 import App from './app';
 
 var appInit = function(hull, me, platform, org){
-  console.log('Hull Ready')
+
   // Clone the Ship so we're safely using it
   var platform = JSON.parse(JSON.stringify(platform));
 

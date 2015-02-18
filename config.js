@@ -32,8 +32,10 @@ function gulpDest(out){
 }
 
 var files = {
-  'src/vendors/**/*'                          : gulpDest('vendors/'),
-  'src/*.html'                                : outputFolder,
+  'src/vendors/**/*' : gulpDest('vendors/'),
+  'manifest.json'    : outputFolder,
+  'src/*.html'       : outputFolder,
+  'CNAME'            : outputFolder,
 }
 
 var libName = pkg.name;

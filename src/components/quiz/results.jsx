@@ -100,8 +100,8 @@ var Results = React.createClass({
   },
   renderActionButtons(){
     return <div className="row pt-1 pb-2 hidden-print">
-      <div className="col-sm-4 col-sm-offset-1">{this.renderFinishQuizButton()}</div>
-      <div className="col-sm-4 col-sm-offset-2">{this.renderPrintButton()}</div>
+      <div className="col-sm-6 col-md-4 col-md-offset-1">{this.renderFinishQuizButton()}</div>
+      <div className="col-sm-6 col-md-4 col-md-offset-2">{this.renderPrintButton()}</div>
     </div>
   },
   render() {

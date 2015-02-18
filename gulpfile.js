@@ -8,8 +8,9 @@ var runSequence = require('run-sequence');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var uglify = require('gulp-uglify');
+var deploy = require('gulp-gh-pages');
 var handleErrors = require('./util/handleErrors');
-var notify = require("gulp-notify");
+var notifier = require("node-notifier");
 
 var sourcemaps = require('gulp-sourcemaps');
 
@@ -30,12 +31,16 @@ gulp.task('server',  function(callback) {runSequence('clean', 'copy-files:watch'
 gulp.task('build',   function(callback) {runSequence('clean', 'copy-files', 'webpack:build', callback); });
 gulp.task('deploy',  function(callback) {runSequence('build', 'gh:deploy', callback); });
 
+
+var notify = function(message){
+    notifier.notify({title: config.displayName+' Gulp',message:message});
+  }
 // Copy static files from the source to the destination
 var copyFiles = function(callback){
   _.map(config.files,function(dest, src){
     gulp.src(src).pipe(gulp.dest(dest))
   });
-  notify({message:'Vendors Updated'});
+  notify('Vendors Updated');
   callback && _.isFunction(callback) && callback()
 }
 
@@ -54,6 +59,7 @@ gulp.task('copy-files:watch', function(){
 //Webpack handles CSS/SCSS, JS, and HTML files.
 gulp.task('webpack:build', function(callback) {
   // Then, use Webpack to bundle all JS and html files to the destination folder
+  notify('Building App');
   webpack(_.values(webpackConfig.production), function(err, stats) {
     if (err) {throw new gutil.PluginError('webpack:build', err); }
 
@@ -66,7 +72,7 @@ gulp.task('webpack:build', function(callback) {
         return new gutil.PluginError('webpack:build', JSON.stringify(jsonStats.warnings));
 
     gutil.log('[webpack:build]', stats.toString({colors: true}));
-    notify({message:'Webpack Built'});
+    notify('App Built');
 
     callback();
   });
@@ -118,12 +124,16 @@ gulp.task('webpack:server', function(callback) {
 
 // Deploy production bundle to gh-pages.
 gulp.task('gh:deploy', function () {
-    return gulp.src(outputBundle).pipe(deploy(options));
+  var outputBundle = './'+config.outputFolder+'/**/*'
+  console.log('deploying to '+outputBundle);
+  var stream = gulp.src(outputBundle).pipe(deploy({}));
+  notify('Deploying to Github Pages');
+  return stream;
 });
 
 function handleError(err, taskName){
   if(err){
-    notify({'title': taskName+' Error', 'message': err});
+    notify(taskName+' Error: '+ err);
     throw new gutil.PluginError('webpack:build', err);
   }
 }
