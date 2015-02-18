@@ -17,7 +17,8 @@ var Resource = React.createClass({
     if(this.props.selectedResource){
       // <h4 className='text-center mt-0'>{this.state.resource.name}</h4>
       return <header className="header text-center mt-2">
-        <ResizedImage src={this.props.selectedResource.picture} height={120} className="logo img-responsive" style={{margin:'0 auto'}}/>
+        <ResizedImage src={this.props.selectedResource.picture} height={120} className="logo img-responsive hidden-print" style={{margin:'0 auto'}}/>
+        <div className="visible-print-block">{this.props.selectedResource.name}</div>
       </header>
     }
   },

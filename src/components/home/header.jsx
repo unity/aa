@@ -13,7 +13,7 @@ var Header = React.createClass({
     var q1 = this.props.resources.quiz_1;
     var q2 = this.props.resources.quiz_2;
     return (
-      <div className="container-fluid pt-3 header">
+      <div className="container-fluid pt-3 header hidden-print">
         <div className="row">
           <div className="col-xs-2 col-xs-offset-1 text-center">
             <Link to='resource-step' params={{resourceKey:'quiz_1',step:0}}>

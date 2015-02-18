@@ -9,8 +9,8 @@ var Answer = React.createClass({
     return (
       <a onClick={this.handleAnswer} className="answer">
         {this.props.children}
-        <ResizedImage height={300} src={this.props.picture} alt="" className="img-responsive" style={{margin:'0 auto'}}/>
-        <h5 className="mt-1 mb-0 answer-name">
+        <ResizedImage height={300} src={this.props.picture} alt="" className="mt-05 mb-05 img-responsive" style={{margin:'0 auto'}}/>
+        <h5 className="m-0 answer-name">
           {this.props.name}
           <br/>
           <small>{this.props.description}&nbsp;</small>

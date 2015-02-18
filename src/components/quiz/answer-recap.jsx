@@ -14,7 +14,7 @@ const AnswerRecap = React.createClass({
       var userAnswer = _.findWhere(question.answers,{ref:userAnswerRef});
       var answer;
       var params = {resourceKey,step:i}
-      var question = <h4 className="question mt-0">{question.name}</h4>
+      var question = <h6 className="question mt-0 mb-0"><strong>{question.name}</strong></h6>
       if(!userAnswer){
         answer = [
           question,
@@ -23,7 +23,7 @@ const AnswerRecap = React.createClass({
         ];
       } else {
         var linkTo = ()=>{this.transitionTo('resource-step',params)}
-        answer = <Answer {...userAnswer} onAnswer={linkTo}>{question}<small>Votre réponse</small></Answer>
+        answer = <Answer {...userAnswer} onAnswer={linkTo}>{question}<small className='hidden-print'><small>Votre réponse</small></small></Answer>
       }
 
       return <div className='col-xs-6 col-sm-4 col-md-4' key={`question-${i}`}>{answer}</div>

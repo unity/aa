@@ -189,6 +189,8 @@ assign(Engine.prototype, Emitter.prototype, {
   updateCurrentAnswers: function(quiz){
     if(quiz && quiz.badge){
       quiz.answers = assign({},quiz.badge.data.answers);
+      quiz.isFinished = true;
+      quiz.isStarted = true;
     }
   },
   updateCurrentQuestion: function(quiz){

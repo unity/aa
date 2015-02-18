@@ -4,7 +4,9 @@ import React                from 'react';
 import ResizedImage         from '../ui/resized-image';
 import LoginButtons         from '../quiz/login-buttons';
 import Router               from 'react-router';
-var {RouteHandler, Route, Link} = Router
+var {RouteHandler, Route, Link} = Router;
+
+import Engine               from '../../lib/engine';
 
 var Home = React.createClass({
   getDefaultProps: function() {
@@ -18,9 +20,13 @@ var Home = React.createClass({
   renderPlayButtons: function(){
     var quizzes = _.where(this.props.resources,{type:'quiz'});
     var navItems = _.map(quizzes,function(quiz){
-      return <div className='col-xs-6'><Link style={{marginRight: 5}} ref={'nav-link-'+quiz.key} to='resource-step' params={{resourceKey:quiz.key,step:0}}>
-              <ResizedImage src={quiz.picture} className="logo img-responsive" style={{margin:'0 auto'}} width={600}/>
-            </Link></div>
+      var image = <ResizedImage src={quiz.picture} className="logo img-responsive" style={{margin:'0 auto'}} width={600}/>
+      if(!quiz.isFinished){
+        var link = <Link style={{marginRight: 5}} ref={'nav-link-'+quiz.key} to='resource-step' params={{resourceKey:quiz.key,step:0}}>{image}</Link>
+      } else {
+        var link = <Link style={{marginRight: 5}} ref={'nav-link-'+quiz.key} to='resource-results'params={{resourceKey:quiz.key,step:Engine.Constants.RESULT_STEP}} >{image}</Link>
+      }
+      return <div className='col-xs-6'>{link}</div>
     });
 
     return <div className='row'>{navItems}</div>

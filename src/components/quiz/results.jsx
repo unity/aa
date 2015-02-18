@@ -79,7 +79,7 @@ var Results = React.createClass({
   },
   renderPrintButton(){
     if(_.size(this.props.resource.answers) >= this.props.resource.questions.length){
-      return <a href="#" className="btn btn-sm btn-pill btn-rounded btn-tertiary" onClick={window.print}>Imprimer</a>
+      return <a href="#" className="btn btn-block btn-pill btn-rounded btn-tertiary" onClick={window.print}>Imprimer</a>
     }
     return ;
   },
@@ -98,6 +98,12 @@ var Results = React.createClass({
       </div>
     </div>
   },
+  renderActionButtons(){
+    return <div className="row pt-1 pb-2 hidden-print">
+      <div className="col-sm-4 col-sm-offset-1">{this.renderFinishQuizButton()}</div>
+      <div className="col-sm-4 col-sm-offset-2">{this.renderPrintButton()}</div>
+    </div>
+  },
   render() {
     var badge = this.props.badge
     if(badge){
@@ -110,12 +116,9 @@ var Results = React.createClass({
     return (
       <div className="container-fluid">
         {this.renderProgress()}
-        <div className="row pt-1 pb-1">
-          <div className="col-sm-6">{this.renderFinishQuizButton()}</div>
-          <div className="col-sm-6">{this.renderPrintButton()}</div>
-        </div>
+        {this.renderActionButtons()}
         <AnswerRecap {...this.props}/>
-        {this.renderFinishQuizButton()}
+        {this.renderActionButtons()}
       </div>
     );
   }

@@ -26,7 +26,7 @@ var Play = React.createClass({
     return <Countdown max={this.props.settings.quiz_countdown} value={this.props.countdown}/>
   },
   renderProgress(){
-    if(!this.props.resource || !this.props.resource.currentQuestionIndex ||!this.props.resource.questions || !this.props.resource.questions.length) return;
+    if(!this.props.resource || !this.props.resource.questions || !this.props.resource.questions.length) return;
     return <Progress {...this.props.resource} current={this.props.resource.currentQuestionIndex+1} total={this.props.resource.questions.length} actions={this.props.actions}/>
   },
   renderQuestion(){
