@@ -1,6 +1,7 @@
 {
-  "displayName": "HullQuiz",
-  "description": "A wonderful quiz for your users",
+  "name":"awards_academy",
+  "displayName": "Awards Academy",
+  "description": "Awards Prediction Game",
   "fullpage": true,
   "index": "dist/index.html",
   "demo": "dist/demo.html",
@@ -8,8 +9,8 @@
   "index": "index.html",
   "locales": ["en"],
   "demoKeys": {
-    "appId": "5475c7d49e8384f9430000e5",
-    "orgUrl": "https://ships-demos.hullbeta.io"
+    "appId": "54df730586342b86de000008",
+    "orgUrl": "https://hulldemos.hullbeta.io"
   },
   "settings": [
     {
@@ -18,13 +19,13 @@
       "type": "string",
       "format": "image"
     }, {
-      "name": "quiz_1_background_image",
-      "title": "Quiz 1 Background Image",
+      "name": "cesar_background_image",
+      "title": "Cesar Background Image",
       "type": "string",
       "format": "image"
-    },{
-      "name": "quiz_2_background_image",
-      "title": "Quiz 2 Background Image",
+    }, {
+      "name": "oscar_background_image",
+      "title": "Oscar Background Image",
       "type": "string",
       "format": "image"
     }, {
@@ -91,6 +92,12 @@
       "format": "color",
       "default": "#ffffff"
     }, {
+    }, {
+      "name": "twitter_author",
+      "title": "Your twitter account",
+      "type": "string",
+      "format": "string"
+    }, {
       "name": "auto_start",
       "title": "Auto Start",
       "description": "Automatically start the quiz when it's loaded",
@@ -106,10 +113,10 @@
   ],
   "resources": [
     {
-      "name": "quiz_1",
+      "name": "cesar",
       "type": "quiz"
     }, {
-      "name": "quiz_2",
+      "name": "oscar",
       "type": "quiz"
     }
   ],

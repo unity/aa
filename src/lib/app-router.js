@@ -16,13 +16,13 @@ import Engine       from '../lib/engine';
 
 
 var routes=  (
-    <Route path='/'                                           handler={Ship}>
+    <Route path='/'                                           handler={Ship} >
     <DefaultRoute name='home'                                 handler={Home} />
     <Route name='rules' path='/rules'                         handler={Rules} />
-    <Route name='resource' path=':resourceKey'                handler={Resource}>
+    <Route name='resource' path=':resourceKey'                handler={Resource} >
       <DefaultRoute                                           handler={Introduction} />
       <Route name='resource-results' path={`/:resourceKey/${Engine.Constants.RESULT_STEP}`}              handler={Results} />
-      <Route name='resource-step'   path='/:resourceKey/:step'  handler={Play} />
+      <Route name='resource-step'   path='/:resourceKey/:step'  handler={Play} ignoreScrollBehavior />
     </Route>
   </Route>
 );

@@ -1,43 +1,32 @@
-import _                    from 'underscore-contrib';
+import _                    from 'underscore';
 import React                from 'react';
 import Router               from 'react-router';
 var {RouteHandler, Route, Link} = Router
 import Answer               from './answer';
 
-var PackeryMixin = require('react-packery-mixin');
- 
-var packeryOptions = {
-    transitionDuration: 200,
-    gutter: 30
-};
- 
 const AnswerRecap = React.createClass({
-  mixins: [Router.State, Router.Navigation, PackeryMixin('packeryContainer', packeryOptions)],
-  handleAnswer(){
-  },
-  componentDidUpdate(prevProps, prevState) {
-    setTimeout(()=>{
-      this.initializePackery(true);
-    },100)
-  },
+  mixins: [Router.State, Router.Navigation],
   renderQuestions(){
+    var {resourceKey, step}=this.getParams();
     var {resourceKey, step}=this.getParams();
     var questions = this.props.resource.questions.map(function(question,i){
       var userAnswerRef = this.props.resource.answers[question.ref];
       var userAnswer = _.findWhere(question.answers,{ref:userAnswerRef});
       var answer;
+      var params = {resourceKey,step:i}
+      var question = <h4 className="question mt-0">{question.name}</h4>
       if(!userAnswer){
         answer = [
+          question,
           <p>Pas encore répondu</p>,
-          <Link className='btn btn-tertiary btn-pill btn-sm' to='resource-step' params={{resourceKey,step:i}}>Répondez</Link>
+          <Link className='btn btn-tertiary btn-pill btn-sm' to='resource-step' params={params}>Répondez</Link>
         ];
       } else {
-        answer = <Answer {...userAnswer} onAnswer={this.handleAnswer}><small>Votre réponse</small></Answer>
+        var linkTo = ()=>{this.transitionTo('resource-step',params)}
+        answer = <Answer {...userAnswer} onAnswer={linkTo}>{question}<small>Votre réponse</small></Answer>
       }
-      return <div style={{width:250}} key={`question-${i}`}>
-        <h4 className="question">{question.name}</h4>
-        {answer}
-      </div>
+
+      return <div className='col-xs-6 col-sm-4 col-md-4' key={`question-${i}`}>{answer}</div>
     },this);
     return questions
     // return _.chunkAll(questions,2).map(function(chunk){
@@ -46,7 +35,11 @@ const AnswerRecap = React.createClass({
   },
   render() {
     return (
-      <div ref="packeryContainer">{this.renderQuestions()}</div>
+      <div className="container-fluid">
+        <div className='row'>
+          <div>{this.renderQuestions()}</div>
+        </div>
+      </div>
     );
   }
 

@@ -13,8 +13,10 @@ var Answers = React.createClass({
       if(answer.description) description=<p className="answer-description">{answer.description}</p>;
       return <div key={`answer-${i}`} className='col-xs-6 col-sm-3 ps-0'><div className='panel-body'><Answer {...answer} _ref={answer.ref} onAnswer={this.props.onAnswer}/></div></div>
     },this);
-    return <div className="container">
-      <div className="answers row">{answers}</div>
+    return <div className="container-fluid">
+      <div className="answers row">
+        <div ref="">{answers}</div>
+      </div>
     </div>
   }
 });

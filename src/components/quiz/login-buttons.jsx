@@ -31,7 +31,7 @@ var LoginButtons = React.createClass({
       content = this.props.actions.translate('logging_in_message');
     } else {
       content = this.props.providers.map(function(service){
-        return <LoginButton actions={this.props.actions} service={service} onPlay={this.handlePlay}/>
+        return <LoginButton actions={this.props.actions} service={service} onPlay={this.props.onPlay}/>
       },this);
     }
     return <div>{content}</div>;

@@ -1,8 +1,9 @@
-import _                    from 'underscore-contrib';
+import _                    from 'underscore';
 import React                from 'react';
 import Router               from 'react-router';
 var {RouteHandler, Route, Link} = Router
 
+import cx                   from 'react/lib/cx';
 import Engine               from '../../lib/engine';
 
 import Leaderboard          from './leaderboard';
@@ -11,29 +12,74 @@ import Progress             from './progress';
 
 const FinishQuizButton = React.createClass({
 
+  componentWillReceiveProps(nextProps) {
+    if(this.props.resource.isSaving && nextProps.badge){
+      this.setState({status:'finish_quiz_button_success'});
+      setTimeout(()=>{
+        this.setState({status:null});
+      },3000);
+    } else if(!nextProps.isSaving && !nextProps.badge){
+      this.setState({status:'finish_quiz_button_error'});
+    }
+  },
+  getInitialState() {
+    return {
+      status:null 
+    };
+  },
   render() {
+    var isSaving = this.props.resource.isSaving;
+    var label;
+    if(isSaving){
+      label = 'finish_quiz_button_progress';
+    } else if (!!this.state.status){
+      label = this.state.status;
+    } else if (!!this.props.badge){
+      label = 'update_quiz_button';
+    } else {
+      label = 'finish_quiz_button';
+    }
+    var classes = cx({
+       "btn btn-block btn-rounded":true,
+       "btn-pill btn-tertiary":!isSaving,
+       "btn-warning":!!isSaving,
+       "btn-success":!!this.state.status,
+       "btn-danger":(!this.props.badge && !isSaving && !this.state.status)
+    })
     return (
-      <div className="btn btn-block btn-rounded btn-brand btn-xl">{this.props.actions.translate('finish_quiz_button')}</div>
+      <div className={classes} onClick={this.props.onClick}>{this.props.actions.translate(label)}</div>
     );
   }
 
 });
 
 var Results = React.createClass({
+  mixins: [Router.State, Router.Navigation],
+
   getDefaultProps() {
     return {
       leaderboards:{}
     };
   },
+  handleReset: function(e){
+    this.props.actions.reset();
+  },
   handleFinishQuiz(){
-    this.props.actions.finishQuiz();
+    var {resourceKey, step}=this.getParams();
+    this.props.actions.finishQuiz(resourceKey);
   },
   renderProgress(){
     return <Progress {...this.props.resource} current={Engine.Constants.INTRODUCTION_STEP} total={this.props.resource.questions.length} actions={this.props.actions}/>
   },
   renderFinishQuizButton(){
     if(_.size(this.props.resource.answers) >= this.props.resource.questions.length){
-      return <div className="row"><div className="col-sm-8 col-sm-offset-2"><FinishQuizButton {...this.props} onClick={this.handleFinishQuiz}/></div></div>
+      return <FinishQuizButton {...this.props} onClick={this.handleFinishQuiz}/>
+    }
+    return ;
+  },
+  renderPrintButton(){
+    if(_.size(this.props.resource.answers) >= this.props.resource.questions.length){
+      return <a href="#" className="btn btn-sm btn-pill btn-rounded btn-tertiary" onClick={window.print}>Imprimer</a>
     }
     return ;
   },
@@ -53,7 +99,7 @@ var Results = React.createClass({
     </div>
   },
   render() {
-    var badge = _.getPath(this.props,'badge');
+    var badge = this.props.badge
     if(badge){
       var subtitle = this.props.actions.translate('result_subtitle',{
         score: this.props.badge.score||"0",
@@ -62,9 +108,12 @@ var Results = React.createClass({
       });
     }
     return (
-      <div className="container">
+      <div className="container-fluid">
         {this.renderProgress()}
-        {this.renderFinishQuizButton()}
+        <div className="row pt-1 pb-1">
+          <div className="col-sm-6">{this.renderFinishQuizButton()}</div>
+          <div className="col-sm-6">{this.renderPrintButton()}</div>
+        </div>
         <AnswerRecap {...this.props}/>
         {this.renderFinishQuizButton()}
       </div>

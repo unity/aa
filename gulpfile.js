@@ -11,6 +11,8 @@ var uglify = require('gulp-uglify');
 var handleErrors = require('./util/handleErrors');
 var notify = require("gulp-notify");
 
+var sourcemaps = require('gulp-sourcemaps');
+
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 
@@ -24,23 +26,24 @@ gulp.task('default', ['server']);
 gulp.task('serve',   ['server']);
 gulp.task('clean',   function(cb)       {del(['./'+config.outputFolder+'/**/*'], cb); });
 
-gulp.task('server',  function(callback) {runSequence('clean', 'copy-files', 'webpack:server', callback); });
+gulp.task('server',  function(callback) {runSequence('clean', 'copy-files:watch', 'webpack:server', callback); });
 gulp.task('build',   function(callback) {runSequence('clean', 'copy-files', 'webpack:build', callback); });
 gulp.task('deploy',  function(callback) {runSequence('build', 'gh:deploy', callback); });
 
 // Copy static files from the source to the destination
-gulp.task('copy-files', function () {
-  var compile = function(){
-    _.map(config.files,function(dest, src){
-      gulp
-        .src(src)
-        .pipe(gulp.dest(dest));
-    });
-    notify('Vendors Updated');
-  }
-  compile()
-  gulp
-    .watch(_.keys(config.files),compile);
+var copyFiles = function(callback){
+  _.map(config.files,function(dest, src){
+    gulp.src(src).pipe(gulp.dest(dest))
+  });
+  notify({message:'Vendors Updated'});
+  callback && _.isFunction(callback) && callback()
+}
+
+gulp.task('copy-files', copyFiles);
+
+gulp.task('copy-files:watch', function(){
+  copyFiles();
+  gulp.watch(_.keys(config.files),copyFiles);
 });
 
 
@@ -63,6 +66,8 @@ gulp.task('webpack:build', function(callback) {
         return new gutil.PluginError('webpack:build', JSON.stringify(jsonStats.warnings));
 
     gutil.log('[webpack:build]', stats.toString({colors: true}));
+    notify({message:'Webpack Built'});
+
     callback();
   });
 });
@@ -88,6 +93,7 @@ gulp.task('webpack:build:dev', function(callback) {
         return new gutil.PluginError('webpack:build', JSON.stringify(jsonStats.warnings));
 
     gutil.log('[webpack:build]', stats.toString({colors: true}));
+    notify({message:'Webpack Updated'});
     callback();
   });
 });
@@ -96,29 +102,28 @@ gulp.task('webpack:build:dev', function(callback) {
 gulp.task('webpack:server', function(callback) {
   var taskName = 'webpack:server';
   new WebpackDevServer(devCompiler, {
-    contentBase: config.outputFolder,
-    publicPath: '/'+config.assetsFolder+'/',
+    contentBase: {target:'http://localhost:8032/'},
+    publicPath: '/assets/',
     hot: true,
     stats: {colors: true }
-  }).listen(config.serverPort, '0.0.0.0', function(err) {
+  }).listen(config.serverPort, function(err) {
     handleError(err, taskName);
     // Dump the preview URL in the console, and open Chrome when launched for convenience.
     var url = webpackConfig.development.browser.output.publicPath+'webpack-dev-server/'
     gutil.log('['+taskName+']', url);
+    notify({message:'Dev Server Started'});
     open(url,'chrome');
   });
 });
 
 // Deploy production bundle to gh-pages.
 gulp.task('gh:deploy', function () {
-    return gulp.src(outputBundle)
-      .pipe(deploy(options));
+    return gulp.src(outputBundle).pipe(deploy(options));
 });
-
 
 function handleError(err, taskName){
   if(err){
-    notifier.notify({'title': taskName+' Error', 'message': err});
+    notify({'title': taskName+' Error', 'message': err});
     throw new gutil.PluginError('webpack:build', err);
   }
 }

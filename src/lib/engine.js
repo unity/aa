@@ -40,8 +40,8 @@ var ACTIONS = [
 ];
 
 var STATUS = {
-  login: '_isLogingIn',
-  logout: '_isLogingOut',
+  login: '_isLoggingIn',
+  logout: '_isLoggingOut',
   linkIdentity: '_isLinking',
   unlinkIdentity: '_isUnlinking'
 };
@@ -105,6 +105,7 @@ assign(Engine.prototype, Emitter.prototype, {
     _.map(this._quizzes, function(quiz){
       self.updateCurrentStep(quiz);
       self.updateCurrentQuestion(quiz);
+      self.updateCurrentAnswers(quiz);
     });
 
     var state = {
@@ -150,6 +151,7 @@ assign(Engine.prototype, Emitter.prototype, {
       self.updateCountdown(quiz);
       self.updateCurrentStep(quiz);
       self.updateCurrentQuestion(quiz);
+      self.updateCurrentAnswers(quiz);
     });
 
     _.map(this._forms, function(form){
@@ -184,6 +186,11 @@ assign(Engine.prototype, Emitter.prototype, {
     quiz.currentStep = s;
     return s;
   },
+  updateCurrentAnswers: function(quiz){
+    if(quiz && quiz.badge){
+      quiz.answers = assign({},quiz.badge.data.answers);
+    }
+  },
   updateCurrentQuestion: function(quiz){
     var q= this._getCurrentQuestion(quiz)
     quiz.currentQuestion = q;
@@ -205,11 +212,9 @@ assign(Engine.prototype, Emitter.prototype, {
   },
 
 
-
-
   resetUser: function() {
     this._user = Hull.currentUser();
-
+    this.getFriends();
     var identities = {};
     if (this._user) {
       this._user.identities.forEach(function(identity) {
@@ -287,6 +292,14 @@ assign(Engine.prototype, Emitter.prototype, {
     return promise;
   },
 
+  getFriends: function(){
+    if(this._user){
+      Hull.api(this._user.id+'/friends',function(friends){
+        this._friends=friends;
+        console.log('Friends', friends)
+      }.bind(this))
+    }
+  },
 
 
   share: function(provider) {
@@ -389,18 +402,21 @@ assign(Engine.prototype, Emitter.prototype, {
   },
   finishQuiz: function(resourceKey) {
     var quiz = this._resources[resourceKey];
-    this.emitChange({ isLoading: 'quiz' });
 
     this._clearTicker(quiz);
-
     quiz.finishedAt = new Date();
-  
+    quiz.isSaving=true;  
+
+    this.emitChange({ isLoading: 'quiz' });
+
     Hull.api(quiz.id + '/achieve' ,'post', {
       answers: quiz.answers,
       timing: quiz.finishedAt - quiz.startedAt
     }, function(badge) {
       quiz.isFinished = true;
+      quiz.isSaving=false;
       quiz.badge = badge;
+      this.updateCurrentAnswers(quiz);
       this.emitChange();
     }.bind(this));
   },

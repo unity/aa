@@ -28,7 +28,7 @@ var Introduction = React.createClass({
         <h1 className="step-name">{this.props.actions.translate('introduction_title',{quiz:this.props.resource.name})}</h1>
         <p className="step-description">{this.props.actions.translate('introduction_subtitle')}</p>
         {this.renderPlay()}
-        <LoginButtons isLoggingIn={this.props.isLoggingIn} user={this.props.user} actions={this.props.actions} providers={this.props.provider} onLogin={this.handlePlay}/>
+        <LoginButtons isLoggingIn={this.props.isLoggingIn} user={this.props.user} actions={this.props.actions} providers={this.props.provider} onPlay={this.handlePlay}/>
       </div>
     );
   }

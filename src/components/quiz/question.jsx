@@ -23,7 +23,7 @@ var Question = React.createClass({
   render() {
     return (
       <div>
-        <h1 className="mb-0">{this.props.name}</h1>
+        <h1 className="mb-0 mt-0">{this.props.name}</h1>
         {this.renderQuestionDescription()}
         {this.renderQuestionCountdown()}
         {this.renderAnswers()}

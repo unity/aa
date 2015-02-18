@@ -1,5 +1,4 @@
 var React = require('react');
-import logo from '../../images/logo.png';
 
 var Footer = React.createClass({
 

@@ -15,23 +15,14 @@ module.exports = {
   development:{
    browser: {
       name     : 'browser',
-      devtool  : 'eval-source-map',
+      devtool  : 'eval',
       devServer: true,
       entry    : devEntry,
       output   : devOutput,
       resolve  : {extensions: config.extensions},
       module   : {loaders: config.loaders},
       plugins: config.plugins.concat([
-        new webpack.DefinePlugin({
-          'process.env': {
-            'NODE_ENV': JSON.stringify('development')
-          }
-        }),
-        new StatsPlugin(path.join(__dirname, 'stats.json'), {
-          chunkModules: true,
-          profile: true,
-          exclude: [/node_modules[\\\/]react/]
-        }),
+        new webpack.DefinePlugin({'process.env': {'NODE_ENV': JSON.stringify('development') } }),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin()
       ])
@@ -45,27 +36,18 @@ module.exports = {
       resolve : {extensions: config.extensions},
       module  : {loaders: config.loaders},
       plugins : config.plugins.concat([
-        new webpack.DefinePlugin({
-          'process.env': {
-            'NODE_ENV': JSON.stringify('production')
-          }
-        }),
-        new StatsPlugin(path.join(__dirname, 'stats.json'), {
-          chunkModules: true,
-          profile: true
-        }),
-        new webpack.optimize.UglifyJsPlugin({ output: {
+        new webpack.DefinePlugin({'process.env': {'NODE_ENV': JSON.stringify('production') } }),
+        new webpack.optimize.UglifyJsPlugin({
           comments: false,
           minimize:true,
           ascii_only:true,
           quote_keys:true,
           sourceMap: false,
           beautify: false,
-          compress: {
-            drop_console: true
-          }
-        }}),
-        new webpack.optimize.DedupePlugin()
+          compress: { drop_console: true }
+        }),
+        new webpack.optimize.DedupePlugin(),
+        new StatsPlugin(path.join(__dirname, config.outputFolder, 'stats.json'), { chunkModules: true, profile: true })
       ])
     }
   }

@@ -73,7 +73,7 @@ var loaders = [
   {test: /\.json$/,                loaders: ['json-loader'] },
   {test: /\.js$/,                  loaders: ['6to5-loader'], exclude: /node_modules/},
   {test: /\.jsx$/,                 loaders: ['react-hot', '6to5-loader']},
-  {test: /\.(css|scss)$/,          loaders: ['style/useable', 'css-loader', 'sass-loader?outputStyle=expanded&'+sassIncludePaths, 'autoprefixer-loader?browsers=last 2 version']},
+  {test: /\.(css|scss)$/,          loaders: ['style/useable', 'css-loader', 'autoprefixer-loader?browsers=last 2 version', 'sass-loader?outputStyle=expanded&'+sassIncludePaths]},
   {test: /\.jpe?g$|\.gif$|\.png$/, loaders: ['file']},
   {test: /\.svg$|\.woff$|\.ttf$|\.wav$|\.mp3$/, loader: "file" },
 ];

@@ -1,0 +1,21 @@
+{
+  "name": "quiz",
+  "description": "A Wonderful quiz for your users",
+  "index": "index.liquid.html",
+  "version": "0.0.1",
+  "resources": [
+    {
+      "name": "quiz",
+      "type": "quiz",
+    },
+    {
+      "name": "cesar",
+      "type": "quiz",
+    },
+    {
+      "name": "profile-form",
+      "type": "form",
+    }
+  ],
+}
+

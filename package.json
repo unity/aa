@@ -41,9 +41,10 @@
     "react-pikaday": "^0.1.0",
     "react-router": "^0.12.0",
     "react-router-bootstrap": "^0.8.3",
+    "react-social": "^0.1.4",
+    "share-button": "git://github.com/carrot/share-button",
     "tcomb-form": "^0.4.1",
-    "underscore": "^1.7.0",
-    "underscore-contrib": "^0.3.0"
+    "underscore": "^1.7.0"
   },
   "devDependencies": {
     "6to5": "^2.11.4",

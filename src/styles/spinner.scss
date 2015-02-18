@@ -1,41 +1,58 @@
-$ncirc: 5;
-$color: #fff;
+@keyframes timer {
+  0% {
+    transform: rotate(0deg);
+  }
 
-.spinner{
-  animation: spin 5s infinite linear;
-  width: 50px;
-  height: 53px;
-  border-radius: 100%;
-  margin:0 auto;
-  top: 45%;
-  .circle{
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    .inner{
-      width: 100%;
-      height: 100%;
-      border-radius: 100%;
-      border: 5px solid transparentize($color, 0.3);
-      border-right: none;
-      border-top: none;
-      background-clip: padding;
-      box-shadow: inset 0px 0px 10px transparentize($color, 0.85);
-    }
+  100% {
+    transform: rotate(360deg);
   }
 }
-    
-    
-@keyframes spin{
-  from {transform: rotate(0deg);}
-  to {transform: rotate(360deg);}
+/* Styles for old versions of IE */
+.timer {
+  opacity: .2;
+  font-family: sans-serif;
+  font-weight: 100;
 }
 
-@for $i from 0 through $ncirc {
-  .spinner{
-    .circle:nth-of-type(#{$i}){
-      transform: rotate($i * 70deg);
-      .inner{ animation: spin 2s infinite linear;}
-    }
-  }
-} 
+/* :not(:required) hides this rule from IE9 and below */
+.timer:not(:required) {
+  border: 6px solid #ffffff;
+  border-radius: 24px;
+  box-sizing: border-box;
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+  text-indent: -9999px;
+  width: 48px;
+  height: 48px;
+}
+.timer:not(:required)::before {
+  animation: timer 1250ms infinite linear;
+  transform-origin: 3px 3px;
+  background: #ffffff;
+  border-radius: 3px;
+  content: '';
+  display: block;
+  position: absolute;
+  width: 6px;
+  height: 19.2px;
+  left: 15px;
+  top: 15px;
+}
+.timer:not(:required)::after {
+  animation: timer 15000ms infinite linear;
+  transform-origin: 3px 3px;
+  background: #ffffff;
+  border-radius: 3px;
+  content: '';
+  display: block;
+  position: absolute;
+  width: 6px;
+  height: 16px;
+  left: 15px;
+  top: 15px;
+}
+
+
+
+

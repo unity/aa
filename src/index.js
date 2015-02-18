@@ -10,7 +10,6 @@ import AppRouter    from './lib/app-router';
 var App = {
   start: function(element, deployment){
     var engine = new Engine(deployment);
-    debugger
     AppRouter.run(function (Handler,state) {
       engine.setActiveResource(state.params.resourceKey)
       engine.setQuizQuestion(state.params.resourceKey,state.params.step)

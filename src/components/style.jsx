@@ -2,7 +2,14 @@ import React     from 'react';
 import Color     from 'color';
 
 var Style = React.createClass({
+  getDefaultProps() {
+    return {
+      selectedResource:{} 
+    };
+  },
   getStyle: function(){
+    var key = (this.props.selectedResource.key)?this.props.selectedResource.key:'quiz_1'
+    var background_image = this.props[`${key}_background_image`];
     var style = `
       body {
         color: ${this.props.text_color};
@@ -26,7 +33,12 @@ var Style = React.createClass({
         background-color: ${Color(this.props.navbar_color).clearer(1-this.props.navbar_opacity).hslString()};
       }
       .navbar-main .navbar-nav>li>a{
+        background:${Color(this.props.navbar_background_color).clearer(1-this.props.navbar_opacity).hslString()};
         color: ${this.props.navbar_text_color};
+      }
+
+      .navbar-default .navbar-nav>li>a{
+        color: ${Color(this.props.navbar_text_color).clearer(.5).hslString()};
       }
 
       .ship {
@@ -34,7 +46,7 @@ var Style = React.createClass({
       }
 
       .ship::after {
-        background-image: url(${this.props.background_image});
+        background-image: url(${background_image});
         opacity: ${this.props.background_image_opacity};
         filter: blur(${this.props.background_image_blur}px);
         -webkit-filter: blur(${this.props.background_image_blur}px);

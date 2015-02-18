@@ -1,0 +1,96 @@
+.post-share-menu{
+    line-height: 1em;
+    list-style: none;
+    padding: 0;
+    margin: 0
+}
+
+.post-share-menu-item {
+  margin-left: -.25em;
+}
+.post-share-menu-item, .post-share-menu-title {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 0;
+}
+.post-share-menu-link {
+  padding: .625em;
+  border: 0;
+  display: block;
+}
+
+.post-share-menu-link {
+    padding: .625em;
+    border: 0;
+    display: block
+}
+.post-share-menu-link .svg-icon {
+    width: 1.375em;
+    height: 1.375em
+}
+.post-share-menu-link:hover .svg-icon {
+    fill: #fff
+}
+.post-share-menu-link--twitter {
+    margin-left: .75em
+}
+.post-share-menu-link--twitter .svg-icon {
+    fill: #55acee
+}
+.post-share-menu-link--twitter:hover {
+    background-color: #55acee
+}
+.post-share-menu-link--facebook .svg-icon {
+    fill: #3b5998
+}
+.post-share-menu-link--facebook:hover {
+    background-color: #3b5998
+}
+.post-share-menu-link--google .svg-icon {
+    fill: #dd4b39
+}
+.post-share-menu-link--google:hover {
+    background-color: #dd4b39
+}
+.post-share-menu-link--link .svg-icon {
+    fill: #ff9800
+}
+.post-share-menu-link--link:hover {
+    background-color: #ff9800
+}
+@media only screen and (min-width: 40.063em) {
+    .post-share {
+        margin-top: 1.25em
+    }
+}
+@media only screen and (min-width: 64.063em) {
+    .post-share {
+        margin-top: 1.875em
+    }
+}
+.post-share-menu {
+    font-size: 1em
+}
+.post-share-menu-item,
+.post-share-menu-title {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 0
+}
+.post-share-menu-title {
+    font-size: 95%;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    position: relative;
+    top: .0625em
+}
+@media only screen and (min-width: 40.063em) {
+    .post-share-menu-title {
+        font-size: 1em
+    }
+}
+.post-share-menu-item {
+    margin-left: -.25em
+}
+
