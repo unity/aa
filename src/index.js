@@ -5,9 +5,7 @@ import Manifest from '../manifest.json';
 // TEMPORARY
 
 import App from './app';
-
 var appInit = function(hull, me, platform, org){
-
   // Clone the Ship so we're safely using it
   var platform = JSON.parse(JSON.stringify(platform));
 
@@ -40,7 +38,6 @@ var appInit = function(hull, me, platform, org){
     $multi:true,
     $fullpage: false
   };
-
   // For full apps, do this to embed the ship without going through HTML imports.
   App.start(document.getElementById('ship'),deployment);
 
@@ -51,5 +48,6 @@ var appInit = function(hull, me, platform, org){
   // This will call the `Hull.onEmbed()` that's inside the app
 }
 
-Hull.init(hullConfig,appInit);
+Hull.init(hullConfig);
+Hull.ready(appInit);
 

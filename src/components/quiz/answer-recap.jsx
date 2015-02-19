@@ -26,7 +26,7 @@ const AnswerRecap = React.createClass({
         answer = <Answer {...userAnswer} onAnswer={linkTo}>{question}<small className='hidden-print'><small>Votre réponse</small></small></Answer>
       }
 
-      return <div className='col-xs-6 col-sm-4 col-md-4' key={`question-${i}`}>{answer}</div>
+      return <div className='col-xs-6 col-sm-4 col-md-4 mb-1' key={`question-${i}`}>{answer}</div>
     },this);
     return questions
     // return _.chunkAll(questions,2).map(function(chunk){

@@ -2,7 +2,15 @@
 /*global require, module, Hull, console*/
 var assign = require('object-assign');
 var Emitter = require('events').EventEmitter;
+
+
+import intl from 'intl';
+if(!window.Intl){
+  window.Intl = intl;
+}
+
 var IntlMessageFormat = require('intl-messageformat');
+
 var _ = require('underscore');
 
 import React from 'react';
@@ -105,7 +113,6 @@ assign(Engine.prototype, Emitter.prototype, {
     _.map(this._quizzes, function(quiz){
       self.updateCurrentStep(quiz);
       self.updateCurrentQuestion(quiz);
-      self.updateCurrentAnswers(quiz);
     });
 
     var state = {

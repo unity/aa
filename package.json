@@ -28,6 +28,7 @@
     "react"
   ],
   "dependencies": {
+    "intl": "^0.1.4",
     "intl-messageformat": "^1.0.4",
     "moment": "^2.9.0",
     "node-notifier": "^4.1.1",

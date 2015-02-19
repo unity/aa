@@ -12,7 +12,7 @@ var MainNav = React.createClass({
   render: function() {
     var quizzes = _.where(this.props.resources,{type:'quiz'});
     var navItems = _.map(quizzes,function(quiz){
-      return <li><Link to='resource-step' ref={'nav-link-'+quiz.key} params={{resourceKey:quiz.key,step:0}}>{quiz.name}</Link></li>
+      return <li><Link to='resource-step' key={'nav-link-'+quiz.key} params={{resourceKey:quiz.key,step:0}}>{quiz.name}</Link></li>
     });
     return (
       <div className="nav navbar-main navbar-inverse navbar-fixed-top">

@@ -13,7 +13,7 @@ const Progress = React.createClass({
     var {resourceKey, step} = this.getParams();
     return _.times(this.props.total,(i)=>{
       var active = (this.props.current===(i+1))
-      return <li className={cx({'active':active})}>
+      return <li key={`quiz-${resourceKey}-step-${i}`} className={cx({'active':active})}>
         <Link to='resource-step' params={{ resourceKey, step:i}}><small>{i+1}</small></Link>
       </li>  
     });
