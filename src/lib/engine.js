@@ -209,7 +209,6 @@ assign(Engine.prototype, Emitter.prototype, {
       quiz.leaderboard=res;
       this.emitChange();
     }.bind(this), function(error) {
-      console.log(error);
       // TODO handle API errors.
     });
   },
@@ -305,7 +304,6 @@ assign(Engine.prototype, Emitter.prototype, {
     if(this._user){
       Hull.api(this._user.id+'/friends',function(friends){
         this._friends=friends;
-        console.log('Friends', friends)
       }.bind(this))
     }
   },
@@ -348,7 +346,6 @@ assign(Engine.prototype, Emitter.prototype, {
       this._setInitialState(Hull.currentUser(), ship);
       this.emitChange();
     }.bind(this), function(error) {
-      console.log(error);
       // TODO handle API errors.
     });
   },
