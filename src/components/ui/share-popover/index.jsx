@@ -53,7 +53,7 @@ const SharePopover = React.createClass({
     this.setState({open:!this.state.open});
   },
   render() {
-    var text = this.props.text || this.props.actions.translate('share_text');
+    var twitter_text = this.props.text || this.props.actions.translate('twitter_share_text');
     return (
       <div className='share-popover'>  
         <input type="checkbox" className="checkbox" id="share" onChange={noop} checked={this.state.open} value={this.state.open}/>
@@ -65,10 +65,10 @@ const SharePopover = React.createClass({
           <li className="share-popover-button twitter">
             <a
               target="_blank"
-              href={`https://twitter.com/intent/tweet?text=${text}&amp;url=${this.props.url}&amp;via=${this.props.twitterAccount}`}
+              href={`https://twitter.com/intent/tweet?text=${twitter_text}&amp;url=${this.props.url}&amp;via=${this.props.twitterAccount}`}
               onClick={this.handleTwitterShare}>
                 <SocialIcons.Twitter/>
-                <div style={{fontSize:11}}><FacebookCount url={this.props.url} /></div>
+                <div style={{fontSize:11}}><TwitterCount url={this.props.url} /></div>
               </a>
           </li>
           <li className="share-popover-button facebook">
@@ -77,7 +77,7 @@ const SharePopover = React.createClass({
               href={`https://www.facebook.com/sharer/sharer.php?u=${this.props.url}`}
               onClick={this.handleFacebookShare}>
                 <SocialIcons.Facebook/>
-                <div style={{fontSize:11}}><TwitterCount url={this.props.url} /></div>
+                <div style={{fontSize:11}}><FacebookCount url={this.props.url} /></div>
               </a>
           </li>
           <li className="share-popover-button google">
