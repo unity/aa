@@ -48,6 +48,5 @@ var appInit = function(hull, me, platform, org){
   // This will call the `Hull.onEmbed()` that's inside the app
 }
 
-Hull.init(hullConfig);
-Hull.ready(appInit);
+Hull.init(hullConfig, appInit);
 
