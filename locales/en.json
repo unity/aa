@@ -22,7 +22,9 @@
   "result_step":"Recap",
   "intro_step":"Démarrage",
   "prev_step":"Previous",
-  "share_text":"Venez faire vos prédictions sur les vainqueurs des Oscar et des César",
+  "facebook_share_text":"Je viens de faire mes pronostics sur les Oscars et les César !",
+  "twitter_share_text":"Je viens de faire mes pronostics sur les Oscars et les César !",
+  "google_share_text":"Je viens de faire mes pronostics sur les Oscars et les César !",
   "share_label":"Partager le jeu",
   "see_who_played":"Et découvrez lesquels de vos amis ont participé",
   "footer_message":"Ⓒ Silenzio, Hull 2015"
