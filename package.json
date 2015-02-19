@@ -45,7 +45,8 @@
     "react-social": "^0.1.4",
     "share-button": "git://github.com/carrot/share-button",
     "tcomb-form": "^0.4.1",
-    "underscore": "^1.7.0"
+    "underscore": "^1.7.0",
+    "underscore-contrib": "^0.3.0"
   },
   "devDependencies": {
     "6to5": "^2.11.4",
