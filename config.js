@@ -33,6 +33,7 @@ function gulpDest(out){
 
 var files = {
   'src/vendors/**/*' : gulpDest('vendors/'),
+  'src/images/**/*'  : gulpDest('images/'),
   'manifest.json'    : outputFolder,
   'src/*.html'       : outputFolder,
   'CNAME'            : outputFolder,
