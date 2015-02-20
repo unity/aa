@@ -11,6 +11,7 @@ import Quiz         from '../components/quiz';
 import Introduction from '../components/quiz/introduction';
 import Play from '../components/quiz/play';
 import Results      from '../components/quiz/results';
+import Leaderboard  from '../components/quiz/leaderboard';
 
 import Engine       from '../lib/engine';
 
@@ -22,6 +23,7 @@ var routes=  (
       <Route name='resource' path='/quizzes/:resourceKey'                                             handler={Resource} >
         <DefaultRoute                                                                                 handler={Introduction} />
         <Route name='resource-results' path={`/quizzes/:resourceKey/${Engine.Constants.RESULT_STEP}`} handler={Results} />
+        <Route name='resource-leaderboard' path={`/quizzes/:resourceKey/${Engine.Constants.LEADERBOARD_STEP}`} handler={Leaderboard} />
         <Route name='resource-step'   path='/quizzes/:resourceKey/:step'                              handler={Play} ignoreScrollBehavior />
       </Route>
     </Route>

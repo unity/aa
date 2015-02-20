@@ -44,10 +44,24 @@ h1,h2,h3,h4,h5,h6 {
   padding: 5px;
   text-decoration: none;
   border-radius: 5px;
+  display: inline-block;
   text-decoration: none;
   cursor: pointer;
   transition: all ease 0.2s;
+  position: relative;
 }
+
+@media screen and (max-width: 768px) {
+  .answer-name{
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.56));
+    padding: 10px 0;
+    left: 0;
+  }
+}
+
 
 .loader {
   position: fixed;
@@ -87,14 +101,20 @@ h1,h2,h3,h4,h5,h6 {
 
 .pager{
   li>a,li>a:hover, li>a:focus{
-    padding-left: 5px;
-    padding-right: 5px;
+    padding-left: 2px;
+    padding-right: 2px;
     background-color: transparent;
     border:none;
     font-weight: 700;
   }
   li.active>a, li>a:hover, li>a:focus{
     color:#fff;
+  }
+  .previous{
+    margin-right: 10px;
+  }
+  .next{
+    margin-left: 10px; 
   }
 }
 

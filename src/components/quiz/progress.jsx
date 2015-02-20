@@ -25,8 +25,8 @@ const Progress = React.createClass({
 
     return <ul className="pager hidden-print">
       <li className='previous'><Link to='resource-step' params={{ resourceKey, step:Engine.Constants.INTRODUCTION_STEP }}>{this.props.actions.translate('intro_step')}</Link></li>
-      <li className='next'><Link to='resource-step' params={{ resourceKey, step:Engine.Constants.RESULT_STEP }}>{this.props.actions.translate('result_step')}</Link></li>
       {this.renderPageLinks()}
+      <li className='next'><Link to='resource-step' params={{ resourceKey, step:Engine.Constants.RESULT_STEP }}>{this.props.actions.translate('result_step')}</Link></li>
     </ul>
   },
   render() {

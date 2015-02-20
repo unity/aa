@@ -61,6 +61,7 @@ var Style = React.createClass({
       }
 
       .answer {
+        border-radius: 3px;
         background-color: ${Color(this.props.text_color).clearer(.95).hslString()};
         border: 1px solid ${Color(this.props.text_color).clearer(.9).hslString()};
       }

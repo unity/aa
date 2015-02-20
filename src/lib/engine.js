@@ -40,6 +40,7 @@ var ACTIONS = [
   'selectQuizAnswer',
   'setQuizQuestion',
   'setActiveResource',
+  'setRealtimeLeaderboard',
   'share',
   'signup',
   'submitForm',
@@ -58,6 +59,7 @@ var Constants = {
   INTRODUCTION_STEP: 'introduction_step',
   PLAY_STEP: 'play_step',
   RESULT_STEP: 'result_step',
+  LEADERBOARD_STEP: 'leaderboard_step',
   THANKS_STEP: 'thanks_step'
 };
 
@@ -153,7 +155,7 @@ assign(Engine.prototype, Emitter.prototype, {
 
     _.map(this._quizzes, function(quiz){
       self.resetQuizState(quiz);
-      self.updateLeaderboard(quiz);
+      // self.updateLeaderboard(quiz);
       self.updateQuestions(quiz);
       self.updateCountdown(quiz);
       self.updateCurrentStep(quiz);
@@ -207,6 +209,18 @@ assign(Engine.prototype, Emitter.prototype, {
   updateLeaderboard: function(quiz){
     Hull.api(quiz.id+'/leaderboards/score').then(function(res) {
       quiz.leaderboard=res;
+      this.emitChange();
+    }.bind(this), function(error) {
+      // TODO handle API errors.
+    });
+    Hull.api(quiz.id+'/leaderboards/score',{type:'around_me'}).then(function(res) {
+      quiz.leaderboard_around_me=res;
+      this.emitChange();
+    }.bind(this), function(error) {
+      // TODO handle API errors.
+    });
+    Hull.api(quiz.id+'/leaderboards/score',{type:'friends'}).then(function(res) {
+      quiz.leaderboard_friends=res;
       this.emitChange();
     }.bind(this), function(error) {
       // TODO handle API errors.
@@ -360,6 +374,21 @@ assign(Engine.prototype, Emitter.prototype, {
     var quiz = this._resources[quizKey];
     this._selectQuizQuestion(quiz, index);
     this.emitChange();
+  },
+  setRealtimeLeaderboard: function(quizKey, step){
+    if(step === 'resource-leaderboard'){
+      var self=this;
+      var quiz = this._resources[quizKey];
+      self.updateLeaderboard(quiz);
+      this._leaderboardTicker = setInterval(()=>{
+        self.updateLeaderboard(quiz);
+      },2000);
+    } else {
+      if(this._leaderboardTicker){
+        clearInterval(this._leaderboardTicker)
+        this._leaderboardTicker = undefined;
+      }
+    }
   },
 
 

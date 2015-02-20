@@ -16,9 +16,9 @@ var Resource = React.createClass({
   renderHeader(){
     if(this.props.selectedResource){
       // <h4 className='text-center mt-0'>{this.state.resource.name}</h4>
-      return <header className="header text-center mt-2">
+      return <header className="header text-center mt-1">
         <ResizedImage src={this.props.selectedResource.picture} height={120} className="logo img-responsive hidden-print" style={{margin:'0 auto'}}/>
-        <div className="visible-print-block">{this.props.selectedResource.name}</div>
+        <small className="visible-print-block">{this.props.selectedResource.name}</small>
       </header>
     }
   },
@@ -49,8 +49,8 @@ var Resource = React.createClass({
         <RouteHandler {...props}/>
         <SharePopover
           actions={this.props.actions}
-          url={window.location.href}
-          twitterAccount={this.props.settings.twitterAccount}>{this.props.actions.translate('share_label')}</SharePopover>
+          url={'http://aa.hull.io'}
+          twitterAccount={'@AgenceSilenzio'}>{this.props.actions.translate('share_label')}</SharePopover>
       </div>
     );
   }

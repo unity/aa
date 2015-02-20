@@ -55,7 +55,7 @@ const SharePopover = React.createClass({
   render() {
     var twitter_text = this.props.text || this.props.actions.translate('twitter_share_text');
     return (
-      <div className='share-popover'>  
+      <div className='share-popover hidden-print'>  
         <input type="checkbox" className="checkbox" id="share" onChange={noop} checked={this.state.open} value={this.state.open}/>
         <a href="#"
           ref='shareButton'
