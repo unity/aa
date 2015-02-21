@@ -22,7 +22,8 @@ var Home = React.createClass({
     var navItems = _.map(quizzes,function(quiz){
       var image = <ResizedImage src={quiz.picture} className="logo img-responsive" style={{margin:'0 auto'}} width={600}/>
       // if(!quiz.isFinished){
-      var link = <Link style={{marginRight: 5}} key={'nav-link-'+quiz.key} to='resource-step' params={{resourceKey:quiz.key,step:0}}>{image}</Link>
+      var step = (quiz.key==='quiz_1')?'leaderboard_step':0
+      var link = <Link style={{marginRight: 5}} key={'nav-link-'+quiz.key} to='resource-step' params={{resourceKey:quiz.key,step:step}}>{image}</Link>
       // } else {
       // var link = <Link style={{marginRight: 5}} key={'nav-link-'+quiz.key} to='resource-results'params={{resourceKey:quiz.key,step:Engine.Constants.RESULT_STEP}} >{image}</Link>
       // }
