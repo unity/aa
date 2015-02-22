@@ -41,7 +41,10 @@ var copyFiles = function(callback){
     gulp.src(src).pipe(gulp.dest(dest))
   });
   notify('Vendors Updated');
-  callback && _.isFunction(callback) && callback()
+  if(callback && _.isFunction(callback)){
+    callback(true)
+  }
+  return true
 }
 
 gulp.task('copy-files', copyFiles);

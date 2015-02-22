@@ -21,6 +21,7 @@ var previewUrl   = 'http://localhost:'+serverPort+'/';
 // DO NOT CHANGE SHIP ENTRY
 // WITHOUT UPDATING PACKAGE.JSON TOO
 // THESE ARE THE JS FILES USED AS ENTRY POINTS TO COMPILE YOUR APP
+
 var entry = {
   ship:       './'+sourceFolder+'/ship.js',
   index:     './'+sourceFolder+'/index.js'
