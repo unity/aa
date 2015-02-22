@@ -37,14 +37,13 @@ var notify = function(message){
   }
 // Copy static files from the source to the destination
 var copyFiles = function(callback){
+  var streams = []
   _.map(config.files,function(dest, src){
-    gulp.src(src).pipe(gulp.dest(dest))
+    var stream = gulp.src(src).pipe(gulp.dest(dest));
+    streams.push(stream)
   });
   notify('Vendors Updated');
-  if(callback && _.isFunction(callback)){
-    callback(true)
-  }
-  return true
+  callback && _.isFunction(callback) && callback()
 }
 
 gulp.task('copy-files', copyFiles);
@@ -55,6 +54,21 @@ gulp.task('copy-files:watch', function(){
 });
 
 
+webpackFeedbackHandler = function(err, stats){
+  if (err) {throw new gutil.PluginError('webpack:build', err); }
+
+  var jsonStats = stats.toJson();
+
+  if(jsonStats.errors.length > 0){
+    gutil.log('[webpack:build:error]', JSON.stringify(jsonStats.errors));
+    throw new gutil.PluginError('webpack:build:error', JSON.stringify(jsonStats.errors));
+  }
+
+  if(jsonStats.warnings.length > 0){
+    gutil.log('[webpack:build:warning]', JSON.stringify(jsonStats.warnings,null,2));
+  }
+}
+
 //Production Build.
 //Minified, clean code. No demo keys inside.
 //demo.html WILL NOT WORK with this build.
@@ -64,20 +78,10 @@ gulp.task('webpack:build', function(callback) {
   // Then, use Webpack to bundle all JS and html files to the destination folder
   notify('Building App');
   webpack(_.values(webpackConfig.production), function(err, stats) {
-    if (err) {throw new gutil.PluginError('webpack:build', err); }
-
-    var jsonStats = stats.toJson();
-
-    if(jsonStats.errors.length > 0)
-        return new gutil.PluginError('webpack:build', JSON.stringify(jsonStats.errors));
-
-    if(jsonStats.warnings.length > 0)
-        return new gutil.PluginError('webpack:build', JSON.stringify(jsonStats.warnings));
-
+    var feedback = webpackFeedbackHandler(err,stats);
     gutil.log('[webpack:build]', stats.toString({colors: true}));
-    notify('App Built');
-
-    callback();
+    notify({message:'App Built'});
+    callback(feedback);
   });
 });
 
@@ -90,20 +94,10 @@ gulp.task('webpack:build:dev', function(callback) {
   // run webpack with Dev profile.
   // Embeds the Hull config keys, and the necessary stuff to make demo.html work
   devCompiler.run(function(err, stats) {
-    if (err)
-      throw new gutil.PluginError('webpack:build', err);
-
-    var jsonStats = stats.toJson();
-
-    if(jsonStats.errors.length > 0)
-        return new gutil.PluginError('webpack:build', JSON.stringify(jsonStats.errors));
-
-    if(jsonStats.warnings.length > 0)
-        return new gutil.PluginError('webpack:build', JSON.stringify(jsonStats.warnings));
-
-    gutil.log('[webpack:build]', stats.toString({colors: true}));
+    var feedback = webpackFeedbackHandler(err,stats);
+    gutil.log('[webpack:build:dev]', stats.toString({colors: true}));
     notify({message:'Webpack Updated'});
-    callback();
+    callback(feedback);
   });
 });
 
