@@ -9,22 +9,6 @@ import Header    from './home/header';
 import Footer    from './home/footer';
 import Style     from './style';
 
-var ReactUpdates = require("react/lib/ReactUpdates");
-
-var rafBatchingStrategy = {
-  isBatchingUpdates: true,
-  batchedUpdates(callback, param) {
-    callback(param);
-  }
-};
-var tick = function() {
-  ReactUpdates.flushBatchedUpdates();
-  requestAnimationFrame(tick);
-};
-requestAnimationFrame(tick);
-ReactUpdates.injection.injectBatchingStrategy(rafBatchingStrategy);
-
-
 var Root = React.createClass({
   mixins: [Router.State, Router.Navigation],
   propTypes: {

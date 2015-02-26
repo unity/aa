@@ -26,7 +26,7 @@ var Header = React.createClass({
             </Link>
           </div>
           <div className="col-xs-2 col-xs-offset-1 text-center">
-            <Link to='resource-step' params={{resourceKey:'quiz_2',step:0}}>
+            <Link to='resource-step' params={{resourceKey:'quiz_2',step:'leaderboard_step'}}>
               <ResizedImage width={100} className={cx({'resource-link img-responsive':true, 'active':(res==q2)})} src={q2.picture} style={{margin:"0 auto", maxHeight:70}}/>
             </Link>
           </div>

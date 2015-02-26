@@ -1,6 +1,6 @@
-import React from 'react';
+import React        from 'react';
 import LoginButtons from './login-buttons';
-import Router               from 'react-router';
+import Router       from 'react-router';
 var {RouteHandler, Route, Link} = Router
 
 var Introduction = React.createClass({

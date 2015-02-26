@@ -72,7 +72,8 @@ var Results = React.createClass({
     return <Progress {...this.props.resource} current={Engine.Constants.INTRODUCTION_STEP} total={this.props.resource.questions.length} actions={this.props.actions}/>
   },
   renderFinishQuizButton(){
-    if(_.size(this.props.resource.answers) >= this.props.resource.questions.length && this.props.resource.key !=='quiz_1'){
+    return ;
+    if(_.size(this.props.resource.answers) >= this.props.resource.questions.length){
       return <FinishQuizButton {...this.props} onClick={this.handleFinishQuiz}/>
     }
     return ;

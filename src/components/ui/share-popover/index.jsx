@@ -6,7 +6,9 @@ import ReactSocial from 'react-social';
 var {FacebookCount, TwitterCount} = ReactSocial;
 
 var noop = function(){}
-
+//http://master.origin.socialcount.fgtest.com/examples/
+//http://whatsapp-sharing.com/
+//http://kurtnoble.com/labs/rrssb/
 const SharePopover = React.createClass({
   componentWillMount() {
     document.addEventListener('click', this.handleWindowClick);
