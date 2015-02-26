@@ -28,6 +28,9 @@
     "react"
   ],
   "dependencies": {
+    "babel": "^4.4.5",
+    "babel-core": "^4.4.5",
+    "babel-loader": "^4.0.0",
     "color": "^0.7.3",
     "intl": "^0.1.4",
     "intl-messageformat": "^1.0.4",
