@@ -17,16 +17,16 @@ import Engine       from '../lib/engine';
 
 
 var routes=  (
-    <Route path='/'                                                                                   handler={Root} >
-      <DefaultRoute name='home'                                                                       handler={Home} />
-      <Route name='rules' path='/rules'                                                               handler={Rules} />
-      <Route name='resource' path='/quizzes/:resourceKey'                                             handler={Resource} >
-        <DefaultRoute                                                                                 handler={Introduction} />
-        <Route name='resource-results' path={`/quizzes/:resourceKey/${Engine.Constants.RESULT_STEP}`} handler={Results} />
-        <Route name='resource-leaderboard' path={`/quizzes/:resourceKey/${Engine.Constants.LEADERBOARD_STEP}`} handler={Leaderboard} />
-        <Route name='resource-step'   path='/quizzes/:resourceKey/:step'                              handler={Play} ignoreScrollBehavior />
-      </Route>
+  <Route path='/'                                                                                   handler={Root} >
+    <DefaultRoute name='home'                                                                       handler={Home} />
+    <Route name='rules' path='/rules'                                                               handler={Rules} />
+    <Route name='resource' path='/quizzes/:resourceKey'                                             handler={Resource} >
+      <DefaultRoute                                                                                 handler={Introduction} />
+      <Route name='resource-results' path={`/quizzes/:resourceKey/${Engine.Constants.RESULT_STEP}`} handler={Results} />
+      <Route name='resource-leaderboard' path={`/quizzes/:resourceKey/${Engine.Constants.LEADERBOARD_STEP}`} handler={Leaderboard} />
+      <Route name='resource-step'   path='/quizzes/:resourceKey/:step'                              handler={Play} ignoreScrollBehavior />
     </Route>
+  </Route>
 );
 
 var AppRouter;

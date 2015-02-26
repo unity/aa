@@ -1,16 +1,5 @@
 @import './spinner.scss';
 
-body, button, input {
-  font: 16px/1.6 "Helvetica Neue", Helvetica, Arial, Geneva;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-}
-
-html, body {
-  height: 100%;
-}
-
-
 a:hover{
   text-decoration: none;
 }
