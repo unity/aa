@@ -1,18 +1,12 @@
 var _ = require('underscore');
 var del = require('del');
 var open = require("open");
-var path = require('path');
-var assign = require('object-assign');
 var runSequence = require('run-sequence');
 
 var gulp = require('gulp');
 var gutil = require('gulp-util');
-var uglify = require('gulp-uglify');
 var deploy = require('gulp-gh-pages');
-var handleErrors = require('./util/handleErrors');
 var notifier = require("node-notifier");
-
-var sourcemaps = require('gulp-sourcemaps');
 
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
@@ -21,7 +15,6 @@ var WebpackDevServer = require('webpack-dev-server');
 // Get our Config.
 var config = require('./config');
 var webpackConfig = require('./webpack.config');
-
 
 gulp.task('default', ['server']);
 gulp.task('serve',   ['server']);
@@ -33,29 +26,20 @@ gulp.task('deploy',  function(callback) {runSequence('build', 'gh:deploy', callb
 
 
 var notify = function(message){
-    notifier.notify({title: config.displayName+' Gulp',message:message});
-  }
+  notifier.notify({title: config.displayName+' Gulp',message:message});
+}
+
 // Copy static files from the source to the destination
 var copyFiles = function(callback){
-  var streams = []
   _.map(config.files,function(dest, src){
-    var stream = gulp.src(src).pipe(gulp.dest(dest));
-    streams.push(stream)
+    gulp.src(src).pipe(gulp.dest(dest));
   });
   notify('Vendors Updated');
   callback && _.isFunction(callback) && callback()
 }
-
-gulp.task('copy-files', copyFiles);
-
-gulp.task('copy-files:watch', function(){
-  copyFiles();
-  gulp.watch(_.keys(config.files),copyFiles);
-});
-
-
-webpackFeedbackHandler = function(err, stats){
-  if (err) {throw new gutil.PluginError('webpack:build', err); }
+// Raise errors on Webpack build errors
+var webpackFeedbackHandler = function(err, stats){
+  handleError(err)
 
   var jsonStats = stats.toJson();
 
@@ -68,6 +52,20 @@ webpackFeedbackHandler = function(err, stats){
     gutil.log('[webpack:build:warning]', JSON.stringify(jsonStats.warnings,null,2));
   }
 }
+var handleError = function(err, taskName){
+  if(err){
+    notify(taskName+' Error: '+ err);
+    throw new gutil.PluginError('webpack:build', err);
+  }
+}
+
+gulp.task('copy-files', copyFiles);
+
+gulp.task('copy-files:watch', function(){
+  copyFiles();
+  gulp.watch(_.keys(config.files),copyFiles);
+});
+
 
 //Production Build.
 //Minified, clean code. No demo keys inside.
@@ -87,13 +85,13 @@ gulp.task('webpack:build', function(callback) {
 
 // Dev Build
 // Create the webpack compiler here for caching and performance.
-var devCompiler = webpack(webpackConfig.development.browser);
+var webpackDevCompiler = webpack(webpackConfig.development.browser);
 
 // Build a Dev version of the project. Launched once on startup so we can have eveything copied.
 gulp.task('webpack:build:dev', function(callback) {
   // run webpack with Dev profile.
   // Embeds the Hull config keys, and the necessary stuff to make demo.html work
-  devCompiler.run(function(err, stats) {
+  webpackDevCompiler.run(function(err, stats) {
     var feedback = webpackFeedbackHandler(err,stats);
     gutil.log('[webpack:build:dev]', stats.toString({colors: true}));
     notify({message:'Webpack Updated'});
@@ -104,7 +102,7 @@ gulp.task('webpack:build:dev', function(callback) {
 // Launch webpack dev server.
 gulp.task('webpack:server', function(callback) {
   var taskName = 'webpack:server';
-  new WebpackDevServer(devCompiler, {
+  new WebpackDevServer(webpackDevCompiler, {
     contentBase: config.outputFolder,
     publicPath: '/'+config.assetsFolder+'/',
     hot: true,
@@ -113,7 +111,7 @@ gulp.task('webpack:server', function(callback) {
     handleError(err, taskName);
     // Dump the preview URL in the console, and open Chrome when launched for convenience.
     var url = webpackConfig.development.browser.output.publicPath+'webpack-dev-server/'
-    gutil.log('['+taskName+']', url);
+    gutil.log('['+taskName+'] started at ', url);
     notify({message:'Dev Server Started'});
     open(url,'chrome');
   });
@@ -128,9 +126,3 @@ gulp.task('gh:deploy', function () {
   return stream;
 });
 
-function handleError(err, taskName){
-  if(err){
-    notify(taskName+' Error: '+ err);
-    throw new gutil.PluginError('webpack:build', err);
-  }
-}
