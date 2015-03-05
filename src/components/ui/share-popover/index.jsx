@@ -2,8 +2,6 @@ import React from 'react';
 import cx from 'react/lib/cx';
 import style from './style.scss';
 import SocialIcons from '../social-icons/index';
-import ReactSocial from 'react-social';
-var {FacebookCount, TwitterCount} = ReactSocial;
 
 var noop = function(){}
 //http://master.origin.socialcount.fgtest.com/examples/
@@ -70,7 +68,7 @@ const SharePopover = React.createClass({
               href={`https://twitter.com/intent/tweet?text=${twitter_text}&amp;url=${this.props.url}&amp;via=${this.props.twitterAccount}`}
               onClick={this.handleTwitterShare}>
                 <SocialIcons.Twitter/>
-                <div style={{fontSize:11}}><TwitterCount url={this.props.url} /></div>
+                <div style={{fontSize:11}}></div>
               </a>
           </li>
           <li className="share-popover-button facebook">
@@ -79,7 +77,7 @@ const SharePopover = React.createClass({
               href={`https://www.facebook.com/sharer/sharer.php?u=${this.props.url}`}
               onClick={this.handleFacebookShare}>
                 <SocialIcons.Facebook/>
-                <div style={{fontSize:11}}><FacebookCount url={this.props.url} /></div>
+                <div style={{fontSize:11}}></div>
               </a>
           </li>
           <li className="share-popover-button google">
@@ -88,7 +86,7 @@ const SharePopover = React.createClass({
               href={`https://plus.google.com/share?url=${this.props.url}`}
               onClick={this.handleGoogleShare}>
                 <SocialIcons.Google/>
-                <div style={{fontSize:11}}><FacebookCount url={this.props.url} /></div>
+                <div style={{fontSize:11}}></div>
               </a>
           </li>
         </ul>

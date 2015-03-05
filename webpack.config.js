@@ -5,7 +5,8 @@ var config = require('./config');
 var StatsPlugin = require('stats-webpack-plugin');
 
 var devEntry = _.reduce(config.entry,function(entries,v,k){
-  entries[k] = ['webpack-dev-server/client?'+config.previewUrl, 'webpack/hot/dev-server', v];
+  entries[k] = v
+  // entries[k] = ['webpack-dev-server/client?'+config.previewUrl, 'webpack/hot/dev-server', v];
   return entries;
 },{});
 
@@ -15,7 +16,7 @@ module.exports = {
   development:{
    browser: {
       name     : 'browser',
-      devtool  : 'eval',
+      devtool  : '#source-map',
       devServer: true,
       entry    : devEntry,
       output   : devOutput,
@@ -23,7 +24,7 @@ module.exports = {
       module   : {loaders: config.loaders},
       plugins: config.plugins.concat([
         new webpack.DefinePlugin({'process.env': {'NODE_ENV': JSON.stringify('development') } }),
-        new webpack.HotModuleReplacementPlugin(),
+        // new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin()
       ])
     }

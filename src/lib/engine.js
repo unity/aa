@@ -77,11 +77,15 @@ function Engine(deployment) {
   var self=this;
 
   function onChange() {
+    console.log('Auth Changed',arguments)
     self.resetUser();
     self.emitChange();
   }
 
-  Hull.on('hull.auth.*', onChange.bind(this));
+  Hull.on('hull.*.*', function(ev){
+    console.log('--------EVENT---------', this.event, ev);
+  });
+  Hull.on('hull.user.*', onChange.bind(this));
 
   this.emitChange();
 }

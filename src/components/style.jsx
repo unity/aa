@@ -25,7 +25,7 @@ var Style = React.createClass({
         background-color: ${this.props.background_color};
       }
       h1, h2, h3, h4, h5, h6 {
-        color: ${this.props.text_color};
+        color: ${Color(this.props.text_color).clearer(.4).hslString()};
       }
 
       a{
@@ -49,11 +49,11 @@ var Style = React.createClass({
         color: ${Color(this.props.navbar_text_color).clearer(.5).hslString()};
       }
 
-      .ship {
+      #ship {
         background: linear-gradient(to bottom, ${Color(this.props.background_color).clearer(.4).hslString()} 60%, ${this.props.background_color} 100%);
       }
 
-      .ship::after {
+      #ship::after {
         background-image: url(${background_image});
         opacity: ${this.props.background_image_opacity};
         filter: blur(${this.props.background_image_blur}px);

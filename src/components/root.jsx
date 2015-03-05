@@ -3,7 +3,6 @@ import React     from 'react';
 import Router    from 'react-router'
 var {RouteHandler} = Router
 
-import Frame     from './ui/frame';
 import Quiz      from './quiz/index';
 import Header    from './home/header';
 import Footer    from './home/footer';
@@ -39,7 +38,7 @@ var Root = React.createClass({
     this.setState(this.props.engine.getState());
   },
   renderContent(){
-    return <div className='ship'>
+    return <div>
       <Style {...this.state.ship.settings} selectedResource={this.state.selectedResource}/>
       <Header       {...this.state} />
       <RouteHandler {...this.state} actions={this.props.engine.getActions()}/>

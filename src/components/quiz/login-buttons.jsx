@@ -2,17 +2,19 @@ var React = require('react');
 var cx    = require('react/lib/cx');
 
 var LoginButton = React.createClass({
-  onClick: function(e){
+  onPlay: function(e){
+    debugger
     this.props.onPlay(this.props.service)
   },
   render: function() {
     var t = this.props.actions.translate, service=this.props.service;
     var styles = {"btn btn-rounded btn-lg pb-1 pt-1":true}
     styles['btn-'+service.name]=true;
+    console.log(this._lifeCycleState,this._rootNodeID,this,this.onPlay)
     return (
       <button
         className={cx(styles)}
-        onClick={this.onClick}
+        onClick={this.onPlay}
         key={'service-'+service.name}>
           <i className={"icon icon-"+service.name}></i> {t('play_with_service_button',{service:service.name})}
           <br/>
@@ -31,7 +33,7 @@ var LoginButtons = React.createClass({
       content = this.props.actions.translate('logging_in_message');
     } else {
       content = this.props.providers.map(function(service){
-        return <LoginButton actions={this.props.actions} service={service} onPlay={this.props.onPlay}/>
+        return <LoginButton key={`login-${service.name}`} actions={this.props.actions} service={service} onPlay={this.props.onPlay}/>
       },this);
     }
     return <div>{content}</div>;

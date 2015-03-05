@@ -3,8 +3,7 @@
 a:hover{
   text-decoration: none;
 }
-.ship {
-  min-height: 100%;
+#ship {
   text-align: center;
   &::after {
     content:'';
@@ -26,20 +25,6 @@ h1,h2,h3,h4,h5,h6 {
 .step-description {
   margin: 20px 0;
 }
-
-.answer {
-  display: block;
-  margin-top: 10px;
-  padding: 5px;
-  text-decoration: none;
-  border-radius: 5px;
-  display: inline-block;
-  text-decoration: none;
-  cursor: pointer;
-  transition: all ease 0.2s;
-  position: relative;
-}
-
 @media screen and (max-width: 768px) {
   .answer-name{
     position: absolute;

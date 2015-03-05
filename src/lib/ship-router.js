@@ -15,7 +15,6 @@ import Leaderboard  from '../components/quiz/leaderboard';
 
 import Engine       from '../lib/engine';
 
-
 var routes=  (
   <Route path='/'                                                                                   handler={Root} >
     <DefaultRoute name='home'                                                                       handler={Home} />

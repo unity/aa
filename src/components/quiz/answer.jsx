@@ -44,8 +44,7 @@ var Answer = React.createClass({
         {this.renderTitle(this.props.question.description)}
       </div>
       var content = <div className="row">
-        <div className="col-xs-6">{useranswer}</div>
-        <div className="col-xs-6">{winner}</div>
+        <div className="col-xs-12">{useranswer}</div>
       </div>
     } else {
       var content = useranswer; 

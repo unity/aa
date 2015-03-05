@@ -16,10 +16,8 @@ import ShipRouter    from './lib/ship-router';
 // Call App.start(...) from your script to boot
 var App = {
   start: function(element, deployment){
-
     // Create the Ship Engine
     var engine = new Engine(deployment);
-
     // Start the router
     ShipRouter.run(function (Handler,state) {
       // On location change, Update the Engine state.

@@ -41,7 +41,7 @@ var Home = React.createClass({
         <div className="row">
           <div className="col-md-8 col-md-offset-2 pt-1">
             <h4 className='light'>Personne mieux que vous ne saurait pronostiquer les résultats des César&nbsp;?</h4>
-            <h2 className='mb-2 mt-0'>Prouvez-le !!!!</h2>
+            <h2 className='mb-2 mt-0'>Prouvez-le !</h2>
             <p>Pronostiquez les résultats des César et des Oscars et montez sur le podium de l’Awards Academy.</p>
             <p>Vous pourrez même imprimer vos pronostics pour votre soirée César/Oscars entre amis.</p>
             <div className="pt-2">{actions}</div>
