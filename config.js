@@ -35,6 +35,7 @@ var files = {
   "src/styles/*.css"  : gulpDest("styles/"),
   "src/vendors/**/*" : gulpDest("vendors/"),
   "src/images/**/*"  : gulpDest("images/"),
+  "src/locales/**/*"  : gulpDest("locales/"),
   "manifest.json"    : outputFolder,
   "src/*.png"        : outputFolder,
   "src/*.html"       : outputFolder,
