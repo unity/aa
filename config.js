@@ -22,8 +22,7 @@ var hotReload = false;
 // THESE ARE THE JS FILES USED AS ENTRY POINTS TO COMPILE YOUR APP
 
 var entry = {
-  ship:  "./"+sourceFolder+"/ship.js",
-  index: "./"+sourceFolder+"/index.js"
+  ship:  "./"+sourceFolder+"/ship.js"
 };
 
 // ADDITIONAL FILES TO BE COPIED BY GULP
@@ -39,7 +38,7 @@ var files = {
   "manifest.json"    : outputFolder,
   "src/*.png"        : outputFolder,
   "src/*.html"       : outputFolder,
-  "CNAME"            : outputFolder,
+  "src/CNAME"        : outputFolder,
 };
 
 var libName = pkg.name;
