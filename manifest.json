@@ -1,13 +1,8 @@
 {
   "name": "awards-academy",
   "description": "The original Cesar/Oscar prediction game, with live scores",
-  "index": "index.html",
+  "index": "ship.html",
   "version": "1.0.0",
-  "demoKeys": {
-    "appId": "54e60986806eb9db67000287",
-    "orgUrl": "https://hulldemos.hullbeta.io"
-  },
-  "fullpage": true,
   "settings": [
     {
       "name": "logo_image",
