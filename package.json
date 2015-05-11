@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "homepage": "https://github.com/hull-ships/hull-aa",
   "license": "MIT",
-  "main": "dist/assets/ship.js",
+  "main": "dist/ship.js",
   "author": {
     "name": "Hull",
     "email": "contact@hull.io",
