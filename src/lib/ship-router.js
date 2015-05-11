@@ -16,7 +16,7 @@ import Leaderboard  from '../components/quiz/leaderboard';
 import Engine       from '../lib/engine';
 
 var routes=  (
-  <Route path='/'                                                                                   handler={Root} >
+  <Route path=""                                                                                    handler={Root} >
     <DefaultRoute name='home'                                                                       handler={Home} />
     <Route name='rules' path='/rules'                                                               handler={Rules} />
     <Route name='resource' path='/quizzes/:resourceKey'                                             handler={Resource} >
@@ -41,7 +41,7 @@ module.exports = {
   run: function(handler) {
     AppRouter = Router.create({
       routes: routes,
-      location: Router.HashLocation,
+      location: Router.HistoryLocation,
       onError: onError
     });
     return AppRouter.run(function(Handler, state) {

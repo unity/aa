@@ -23,7 +23,8 @@ var App = {
       // On location change, Update the Engine state.
       engine.setActiveResource(state.params.resourceKey)
       engine.setQuizQuestion(state.params.resourceKey,state.params.step)
-      engine.setRealtimeLeaderboard(state.params.resourceKey,state.routes.slice(-1)[0].name)
+      var route = state.routes.slice(-1)[0] && state.routes.slice(-1)[0].name
+      engine.setRealtimeLeaderboard(state.params.resourceKey,route)
       React.render(<Handler engine={engine}/>, element);
     });
   }

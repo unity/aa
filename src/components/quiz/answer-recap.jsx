@@ -1,9 +1,9 @@
 import cx                   from 'react/lib/cx';
-import _                    from 'underscore-contrib';
 import React                from 'react';
 import Router               from 'react-router';
 var {RouteHandler, Route, Link} = Router
 import Answer               from './answer';
+import _                    from 'underscore-contrib';
 
 const AnswerRecap = React.createClass({
   mixins: [Router.State, Router.Navigation],
@@ -44,9 +44,12 @@ const AnswerRecap = React.createClass({
     } else {
       questions = []
     }
-    return _.chunkAll(questions,(print)?6:3).map(function(chunk){
+    return questions.map(function(chunk){
       return <div className="row">{chunk}</div>
     });
+    // return _.chunkAll(questions,(print)?6:3).map(function(chunk){
+    //   return <div className="row">{chunk}</div>
+    // });
   },
   render() {
     return (
