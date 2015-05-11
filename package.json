@@ -2,7 +2,7 @@
   "name": "hull-aa",
   "description": "The Hull Awards Academy Prediction Game",
   "version": "0.0.1",
-  "homepage": "https://github.com/hull-ships/hull-aa",
+  "homepage": "https://github.com/unity/aa",
   "license": "MIT",
   "main": "dist/ship.js",
   "author": {
@@ -12,10 +12,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/hull-ships/hull-aa"
+    "url": "git://github.com/unity/aa"
   },
   "bugs": {
-    "url": "https://github.com/hull-ships/hull-ship/issues"
+    "url": "https://github.com/unity/aa/issues"
   },
   "scripts": {
     "start": "./node_modules/.bin/gulp server",
