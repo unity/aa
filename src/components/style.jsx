@@ -19,10 +19,20 @@ var Style = React.createClass({
     var key = (this.props.selectedResource.key)?this.props.selectedResource.key:'quiz_1'
     var background_image = this.props[`${key}_background_image`];
     var style = `
-      body {
+      #body {
         color: ${this.props.text_color};
         color: ${Color(this.props.text_color).clearer(.4).hslString()};
         background-color: ${this.props.background_color};
+      }
+      #root {
+        background: linear-gradient(to bottom, ${Color(this.props.background_color).clearer(.4).hslString()} 60%, ${this.props.background_color} 100%);
+      }
+
+      #root::after {
+        background-image: url(${background_image});
+        opacity: ${this.props.background_image_opacity};
+        filter: blur(${this.props.background_image_blur}px);
+        -webkit-filter: blur(${this.props.background_image_blur}px);
       }
       h1, h2, h3, h4, h5, h6 {
         color: ${Color(this.props.text_color).clearer(.4).hslString()};
@@ -49,16 +59,6 @@ var Style = React.createClass({
         color: ${Color(this.props.navbar_text_color).clearer(.5).hslString()};
       }
 
-      #ship {
-        background: linear-gradient(to bottom, ${Color(this.props.background_color).clearer(.4).hslString()} 60%, ${this.props.background_color} 100%);
-      }
-
-      #ship::after {
-        background-image: url(${background_image});
-        opacity: ${this.props.background_image_opacity};
-        filter: blur(${this.props.background_image_blur}px);
-        -webkit-filter: blur(${this.props.background_image_blur}px);
-      }
 
       .answer {
         border-radius: 3px;

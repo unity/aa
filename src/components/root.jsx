@@ -38,19 +38,17 @@ var Root = React.createClass({
     this.setState(this.props.engine.getState());
   },
   renderContent(){
-    return <div>
-      <Style {...this.state.ship.settings} selectedResource={this.state.selectedResource}/>
-      <Header       {...this.state} />
-      <RouteHandler {...this.state} actions={this.props.engine.getActions()}/>
-      <Footer       {...this.state} actions={this.props.engine.getActions()}/>
+    return <div id="body">
+      <div id='root'>
+        <Style {...this.state.ship.settings} selectedResource={this.state.selectedResource}/>
+        <Header       {...this.state} />
+        <RouteHandler {...this.state} actions={this.props.engine.getActions()}/>
+        <Footer       {...this.state} actions={this.props.engine.getActions()}/>
+      </div>
     </div>
   },
   render() {
-    if(this.props.sandbox){
-      return <Frame>{this.renderContent()}</Frame>
-    } else {
-      return this.renderContent()
-    }
+    return this.renderContent()
   }
 });
 
